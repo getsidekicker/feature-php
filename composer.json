@@ -1,0 +1,32 @@
+{
+  "name": "getsidekicker/feature-php",
+  "type": "library",
+  "require": {
+    "joshkulesza/php-flagr": "1.1.13.1",
+    "guzzlehttp/psr7": "^1.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.19",
+    "phpunit/phpunit": "^9.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sidekicker\\Feature\\": "src"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Sidekicker\\Feature\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Sidekicker\\Feature\\ServiceProvider"
+      ]
+    }
+  }
+}
