@@ -1,13 +1,12 @@
 <?php
 
-namespace Sidekicker\Feature;
+namespace Sidekicker\FlagrFeatureLaravel;
 
 use Illuminate\Console\Command;
 
 //Create Laravel Command to create a new flag
 class CreateFlagCommand extends Command
 {
-
     protected $signature = 'feature:create-flag {--name} {--description} {--tags=*}';
 
     protected $description = 'Create a new boolean flag within flagr';
@@ -17,12 +16,22 @@ class CreateFlagCommand extends Command
         parent::__construct();
     }
 
-    public function handle()
+    public function handle(): void
     {
+        $name = $this->option('name');
+        $description = $this->option('description');
+        $tags = $this->option('tags');
+
+        if (!is_string($name) || !is_string($description) || !is_array($tags)) {
+            $this->error('Please provide a valid name, description and tags');
+
+            return;
+        }
+
         $this->createFlag->createFlag(
-            $this->option('name'),
-            $this->option('description'),
-            $this->option('tags')
+            $name,
+            $description,
+            $tags
         );
     }
 }

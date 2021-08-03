@@ -1,23 +1,26 @@
 <?php
 
-namespace Sidekicker\Feature\Tests;
+namespace Sidekicker\FlagrFeatureLaravel\Tests;
 
-use Sidekicker\Feature\CreateFlag;
+use Illuminate\Testing\PendingCommand;
+use Sidekicker\FlagrFeatureLaravel\CreateFlag;
 
 // Test class that will test the CreateFlag class
 class CreateFlagTest extends TestCase
 {
-
     // Test that the CreateFlag class can be instantiated
-    public function testCreateFlag()
+    public function testCreateFlag(): void
     {
         $flag = app(CreateFlag::class);
         $this->assertInstanceOf(CreateFlag::class, $flag);
     }
 
     // Test calling of the command
-    public function testCreateFlagCommand()
+    public function testCreateFlagCommand(): void
     {
-        $this->artisan('feature:create-flag', ['--name' => uniqid('test-flag'), '--description' => 'This is a test flag'])->assertExitCode(0);
+        $return = $this->artisan('feature:create-flag', ['--name' => uniqid('test-flag'), '--description' => 'This is a test flag']);
+        $this->assertInstanceOf(PendingCommand::class, $return);
+        //@phpstan-ignore-next-line
+        $return->assertExitCode(0);
     }
 }

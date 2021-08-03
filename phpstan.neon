@@ -1,0 +1,7 @@
+parameters:
+    level: 8
+    parallel:
+        processTimeout: 180.0
+    paths:
+        - ./src
+        - ./tests

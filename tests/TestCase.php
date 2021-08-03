@@ -1,9 +1,9 @@
 <?php
 
-namespace Sidekicker\Feature\Tests;
+namespace Sidekicker\FlagrFeatureLaravel\Tests;
 
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
-use Sidekicker\Feature\ServiceProvider;
+use Sidekicker\FlagrFeatureLaravel\ServiceProvider;
 
 class TestCase extends TestbenchTestCase
 {
@@ -12,7 +12,7 @@ class TestCase extends TestbenchTestCase
      *
      * @param  \Illuminate\Foundation\Application  $app
      *
-     * @return array
+     * @return string[]
      */
     protected function getPackageProviders($app): array
     {
@@ -22,7 +22,7 @@ class TestCase extends TestbenchTestCase
     /**
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         config()->set('features.flagr_url', env('FEATURE_FLAGR_URL'));
     }

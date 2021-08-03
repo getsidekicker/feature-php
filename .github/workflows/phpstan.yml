@@ -1,0 +1,18 @@
+name: phpstan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: OSKAR-phpstan
+        env:
+          REQUIRE_DEV: true
+        uses: docker://oskarstark/phpstan-ga

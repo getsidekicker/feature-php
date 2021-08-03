@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="flagr-feature-php">
+    <file>./src</file>
+    <ini name="memory_limit" value="256M"/>
+
+    <rule ref="PSR12" />
+</ruleset>

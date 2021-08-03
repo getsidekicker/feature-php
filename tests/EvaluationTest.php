@@ -1,20 +1,18 @@
 <?php
 
-namespace Sidekicker\Feature\Tests;
+namespace Sidekicker\FlagrFeatureLaravel\Tests;
 
 use Flagr\Client\Api\FlagApi;
-use Flagr\Client\Model\CreateFlagRequest;
 use Flagr\Client\Model\Flag;
 use Flagr\Client\Model\SetFlagEnabledRequest;
-use Sidekicker\Feature\CreateFlag;
-use Sidekicker\Feature\Feature;
+use Sidekicker\FlagrFeatureLaravel\CreateFlag;
+use Sidekicker\FlagrFeatureLaravel\Feature;
 
 // Test class that will test the CreateFlag class
 class EvaluationTest extends TestCase
 {
-
     // Test that the CreateFlag class can be instantiated
-    public function testEvaluation()
+    public function testEvaluation(): void
     {
         $flag = $this->createFlag();
         $feature = app(Feature::class);
@@ -28,20 +26,20 @@ class EvaluationTest extends TestCase
         $this->assertTrue($evaluated);
     }
 
-    public function testNoMatchEvaluation()
+    public function testNoMatchEvaluation(): void
     {
         $feature = app(Feature::class);
         $evaluated = false;
         $feature->evaluate(
             'no_existent_flag',
-            _: function () use (&$evaluated) {
+            otherwise: function () use (&$evaluated) {
                 $evaluated = true;
             }
         );
         $this->assertTrue($evaluated);
     }
 
-    public function testMatch()
+    public function testMatch(): void
     {
         $flag = $this->createFlag();
         $feature = app(Feature::class);
@@ -51,10 +49,15 @@ class EvaluationTest extends TestCase
         ));
     }
 
-    public function testFunctionsExported()
+    public function testFunctionsExported(): void
     {
         $this->assertTrue(function_exists('feature_eval'));
         $this->assertTrue(function_exists('feature_match'));
+    }
+
+    public function testAlias(): void
+    {
+        $this->assertInstanceOf(Feature::class, app('feature'));
     }
 
     private function createFlag(): Flag

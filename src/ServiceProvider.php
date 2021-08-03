@@ -1,6 +1,6 @@
 <?php
 
-namespace Sidekicker\Feature;
+namespace Sidekicker\FlagrFeatureLaravel;
 
 use Flagr\Client\Api\ConstraintApi;
 use Flagr\Client\Api\EvaluationApi;
@@ -8,11 +8,9 @@ use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\TagApi;
 use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider as SupportServiceProvider;
-use Sidekicker\Feature\Feature;
 
 class ServiceProvider extends SupportServiceProvider
 {
-
     public function boot(): void
     {
         $this->publishes([
@@ -29,33 +27,43 @@ class ServiceProvider extends SupportServiceProvider
 
     public function register(): void
     {
-        $client = fn () => new Client([
+        $this->registerClasses();
+    }
+
+    protected function createGuzzleClient(): Client
+    {
+        return new Client([
             'base_uri' => config('features.flagr_url')
         ]);
+    }
 
-        $this->app->bind(Feature::class, function () use ($client) {
+    protected function registerClasses(): void
+    {
+        $this->app->bind(Feature::class, function () {
             return new Feature(
                 new EvaluationApi(
-                    client: $client()
+                    client: $this->createGuzzleClient()
                 )
             );
         });
 
-        $this->app->bind(ConstraintApi::class, function () use ($client) {
+        $this->app->alias(Feature::class, 'feature');
+
+        $this->app->bind(ConstraintApi::class, function () {
             return new ConstraintApi(
-                client: $client()
+                client: $this->createGuzzleClient()
             );
         });
 
-        $this->app->bind(FlagApi::class, function () use ($client) {
+        $this->app->bind(FlagApi::class, function () {
             return new FlagApi(
-                client: $client()
+                client: $this->createGuzzleClient()
             );
         });
 
-        $this->app->bind(TagApi::class, function () use ($client) {
+        $this->app->bind(TagApi::class, function () {
             return new TagApi(
-                client: $client()
+                client: $this->createGuzzleClient()
             );
         });
     }

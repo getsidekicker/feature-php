@@ -1,31 +1,56 @@
 {
   "name": "getsidekicker/flagr-feature-laravel",
+  "description": "Makes working with Flagr in Laravel a snap",
   "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "flagr",
+    "feature",
+    "feature flag",
+    "laravel"
+  ],
+  "authors": [
+    {
+      "name": "Tristan Kenney",
+      "email": "tkenney@sidekicker.com.au",
+      "homepage": "https://sidekicker.com.au",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/getsidekicker/flagr-feature-laravel/issues"
+  },
   "require": {
     "joshkulesza/php-flagr": "1.1.13.1",
     "guzzlehttp/psr7": "^1.0"
   },
   "require-dev": {
     "orchestra/testbench": "^6.19",
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "squizlabs/php_codesniffer": "^3.6"
   },
   "autoload": {
     "psr-4": {
-      "Sidekicker\\Feature\\": "src"
+      "Sidekicker\\FlagrFeatureLaravel\\": "src"
     },
     "files": [
-      "src/functions.php"
+      "src/helpers.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "Sidekicker\\Feature\\Tests\\": "tests"
+      "Sidekicker\\FlagrFeatureLaravel\\Tests\\": "tests"
     }
+  },
+  "scripts": {
+    "fixer": "vendor/bin/php-cs-fixer fix --config=./.php-cs-fixer.dist.php --verbose --using-cache=no",
+    "phpcbf": "vendor/bin/phpcbf"
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Sidekicker\\Feature\\ServiceProvider"
+        "Sidekicker\\FlagrFeatureLaravel\\ServiceProvider"
       ]
     }
   }
