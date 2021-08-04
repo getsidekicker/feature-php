@@ -1,5 +1,5 @@
 {
-  "name": "getsidekicker/feature-php",
+  "name": "getsidekicker/flagr-feature-laravel",
   "type": "library",
   "require": {
     "joshkulesza/php-flagr": "1.1.13.1",
