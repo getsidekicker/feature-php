@@ -33,7 +33,9 @@ class ServiceProvider extends SupportServiceProvider
     protected function createGuzzleClient(): Client
     {
         return new Client([
-            'base_uri' => config('features.flagr_url')
+            'base_uri' => config('features.flagr_url'),
+            'connect_timeout' => config('features.connect_timeout'),
+            'timeout' => config('features.timeout'),
         ]);
     }
 
