@@ -33,5 +33,7 @@ class CreateFlagCommand extends Command
             $description,
             $tags
         );
+
+        return Command::SUCCESS;
     }
 }
