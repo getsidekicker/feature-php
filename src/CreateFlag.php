@@ -19,7 +19,7 @@ class CreateFlag
      * @param string $description
      * @param array<string, string> $tags
      *
-     * @throws \Flagr\Client\ApiException   
+     * @throws \Flagr\Client\ApiException
      *
      * @return Flag
      */
