@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 //Create Laravel Command to create a new flag
 class CreateFlagCommand extends Command
 {
-    protected $signature = 'feature:create-flag {--name} {--description} {--tags=*}';
+    protected $signature = 'feature:create-flag {--name=} {--description=} {--tags=*}';
 
     protected $description = 'Create a new boolean flag within flagr';
 
