@@ -18,6 +18,9 @@ class CreateFlag
      * @param string $name
      * @param string $description
      * @param array<string, string> $tags
+     *
+     * @throws \Flagr\Client\ApiException   
+     *
      * @return Flag
      */
     public function createFlag(string $name, string $description, array $tags = []): Flag
