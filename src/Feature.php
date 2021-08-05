@@ -14,6 +14,9 @@ class Feature
     /**
      * @param string $flag
      * @param array<mixed, mixed> $context
+     *
+     * @throws \Flagr\Client\ApiException
+     *
      * @return boolean
      */
     public function match(string $flag, array $context = []): bool
