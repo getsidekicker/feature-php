@@ -3,7 +3,7 @@
 namespace Sidekicker\FlagrFeatureLaravel\Tests;
 
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
-use Sidekicker\FlagrFeatureLaravel\ServiceProvider;
+use Sidekicker\FlagrFeatureLaravel\FlagrFeatureServiceProvider;
 
 class TestCase extends TestbenchTestCase
 {
@@ -16,7 +16,7 @@ class TestCase extends TestbenchTestCase
      */
     protected function getPackageProviders($app): array
     {
-        return [ServiceProvider::class];
+        return [FlagrFeatureServiceProvider::class];
     }
 
     /**
@@ -24,6 +24,6 @@ class TestCase extends TestbenchTestCase
      */
     protected function getEnvironmentSetUp($app): void
     {
-        config()->set('features.flagr_url', env('FEATURE_FLAGR_URL'));
+        config()->set('flagr-features.flagr_url', env('FEATURE_FLAGR_URL'));
     }
 }
