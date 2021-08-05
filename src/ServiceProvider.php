@@ -7,25 +7,20 @@ use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\TagApi;
 use GuzzleHttp\Client;
-use Illuminate\Support\ServiceProvider as SupportServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class ServiceProvider extends SupportServiceProvider
+class ServiceProvider extends PackageServiceProvider
 {
-    public function boot(): void
+    public function configurePackage(Package $package): void
     {
-        $this->publishes([
-            __DIR__ . '/../config/features.php' => config_path('features.php'),
-        ]);
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                CreateFlagCommand::class
-            ]);
-        }
+        $package
+            ->name('flagr-feature-laravel')
+            ->hasCommand(CreateFlagCommand::class)
+            ->hasConfigFile(['flagr-feature']);
     }
 
-
-    public function register(): void
+    public function packageRegistered(): void
     {
         $this->registerClasses();
     }
@@ -33,9 +28,9 @@ class ServiceProvider extends SupportServiceProvider
     protected function createGuzzleClient(): Client
     {
         return new Client([
-            'base_uri' => config('features.flagr_url'),
-            'connect_timeout' => config('features.connect_timeout'),
-            'timeout' => config('features.timeout'),
+            'base_uri' => config('flagr-feature.flagr_url'),
+            'connect_timeout' => config('flagr-feature.connect_timeout'),
+            'timeout' => config('flagr-feature.timeout'),
         ]);
     }
 
