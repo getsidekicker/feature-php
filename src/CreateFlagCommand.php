@@ -16,7 +16,7 @@ class CreateFlagCommand extends Command
         parent::__construct();
     }
 
-    public function handle(): void
+    public function handle(): int
     {
         $name = $this->option('name');
         $description = $this->option('description');
