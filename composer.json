@@ -52,7 +52,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Sidekicker\\FlagrFeatureLaravel\\ServiceProvider"
+        "Sidekicker\\FlagrFeatureLaravel\\FlagrFeatureServiceProvider"
       ]
     }
   },
