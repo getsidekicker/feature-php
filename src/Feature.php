@@ -35,6 +35,9 @@ class Feature
      * @param string $flag
      * @param array<mixed, mixed> $context
      * @param callable ...$callbacks
+     *
+     * @throws \Flagr\Client\ApiException
+     *
      * @return void
      */
     public function evaluate(string $flag, array $context = [], callable ...$callbacks): void
