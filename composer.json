@@ -20,6 +20,7 @@
     "issues": "https://github.com/getsidekicker/flagr-feature-laravel/issues"
   },
   "require": {
+    "php": "^8.0",
     "joshkulesza/php-flagr": "1.1.13.1",
     "guzzlehttp/psr7": "^1.0",
     "spatie/laravel-package-tools": "^1.9"
@@ -33,7 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Sidekicker\\FlagrFeatureLaravel\\": "src"
+      "Sidekicker\\FlagrFeatureLaravel\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -41,7 +42,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Sidekicker\\FlagrFeatureLaravel\\Tests\\": "tests"
+      "Sidekicker\\FlagrFeatureLaravel\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -54,5 +55,7 @@
         "Sidekicker\\FlagrFeatureLaravel\\ServiceProvider"
       ]
     }
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
