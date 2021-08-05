@@ -25,7 +25,7 @@ class CreateFlagCommand extends Command
         if (!is_string($name) || !is_string($description) || !is_array($tags)) {
             $this->error('Please provide a valid name, description and tags');
 
-            return;
+            return Command::FAILURE;
         }
 
         $this->createFlag->createFlag(
