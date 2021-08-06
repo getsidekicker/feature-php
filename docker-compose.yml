@@ -22,6 +22,10 @@ services:
     environment:
       FLAGR_DB_DBDRIVER: mysql
       FLAGR_DB_DBCONNECTIONSTR: flagr:flagr@tcp(db:3306)/flagr?parseTime=true
+      FLAGR_BASIC_AUTH_ENABLED: "true"
+      FLAGR_BASIC_AUTH_USERNAME: flagr
+      FLAGR_BASIC_AUTH_PASSWORD: flagr
+      FLAGR_BASIC_AUTH_WHITELIST_PATHS: "/api/v1/health,/api/v1/evaluation"
     ports:
       - "18000:18000"
     depends_on:
