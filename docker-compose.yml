@@ -41,7 +41,6 @@ services:
     tmpfs:
       - /tmp/:rw,noexec,nosuid,size=50m
     volumes:
-      - ./ops/docker/mysql.conf:/etc/mysql/conf.d/tmpfs.conf
       - mysqldata_tmpfs:/var/lib/mysql
 
 volumes:
