@@ -1,6 +1,6 @@
 <?php
 
-namespace Sidekicker\Feature;
+namespace Sidekicker\FlagrFeature;
 
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\Model\EvalContext;
@@ -11,6 +11,14 @@ class Feature
     {
     }
 
+    /**
+     * @param string $flag
+     * @param array<mixed, mixed> $context
+     *
+     * @throws \Flagr\Client\ApiException
+     *
+     * @return boolean
+     */
     public function match(string $flag, array $context = []): bool
     {
         $match = false;
@@ -18,7 +26,7 @@ class Feature
         $this->evaluate(
             $flag,
             $context,
-            on: function (?array $attachment) use (&$match) {
+            on: function (?object $attachment) use (&$match) {
                 $match = true;
             }
         );
@@ -26,16 +34,24 @@ class Feature
         return $match;
     }
 
+    /**
+     * @param string $flag
+     * @param array<mixed, mixed> $context
+     * @param callable ...$callbacks
+     *
+     * @throws \Flagr\Client\ApiException
+     *
+     * @return void
+     */
     public function evaluate(string $flag, array $context = [], callable ...$callbacks): void
     {
         $evalContext = new EvalContext();
         $evalContext->setFlagKey($flag);
-        $evalContext->setEnableDebug(true);
         $evaluation = $this->evaluator->postEvaluation($evalContext);
 
         $callback = $callbacks[$evaluation->getVariantKey()]
-            ?? $callbacks['_']
-            ?? fn (?array $attachment) => false;
+            ?? $callbacks['otherwise']
+            ?? fn (?object $attachment) => false;
 
         $callback($evaluation->getVariantAttachment());
     }
