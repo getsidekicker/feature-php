@@ -5,13 +5,13 @@ namespace Sidekicker\FlagrFeature;
 use Illuminate\Console\Command;
 
 //Create Laravel Command to create a new flag
-class CreateFlagCommand extends Command
+class CreateBooleanFlagCommand extends Command
 {
-    protected $signature = 'feature:create-flag {--name=} {--description=} {--tags=*}';
+    protected $signature = 'feature:create-boolean-flag {--name=} {--description=} {--tags=*}';
 
     protected $description = 'Create a new boolean flag within flagr';
 
-    public function __construct(private CreateFlag $createFlag)
+    public function __construct(private BooleanFlag $booleanFlag)
     {
         parent::__construct();
     }
@@ -28,7 +28,7 @@ class CreateFlagCommand extends Command
             return Command::FAILURE;
         }
 
-        $this->createFlag->createFlag(
+        $this->booleanFlag->createBooleanFlag(
             $name,
             $description,
             $tags

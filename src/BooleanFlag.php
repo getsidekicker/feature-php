@@ -8,7 +8,7 @@ use Flagr\Client\Model\CreateFlagRequest;
 use Flagr\Client\Model\CreateTagRequest;
 use Flagr\Client\Model\Flag;
 
-class CreateFlag
+class BooleanFlag
 {
     public function __construct(private FlagApi $flagApi, private TagApi $tagApi)
     {
@@ -23,7 +23,7 @@ class CreateFlag
      *
      * @return Flag
      */
-    public function createFlag(string $name, string $description, array $tags = []): Flag
+    public function createBooleanFlag(string $name, string $description, array $tags = []): Flag
     {
         $body = new CreateFlagRequest();
 

@@ -16,7 +16,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('flagr-feature-laravel')
-            ->hasCommand(CreateFlagCommand::class)
+            ->hasCommand(CreateBooleanFlagCommand::class)
             ->hasConfigFile(['flagr-feature']);
     }
 
