@@ -5,7 +5,7 @@ namespace Sidekicker\FlagrFeature\Tests;
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Model\Flag;
 use Flagr\Client\Model\SetFlagEnabledRequest;
-use Sidekicker\FlagrFeature\CreateFlag;
+use Sidekicker\FlagrFeature\BooleanFlag;
 use Sidekicker\FlagrFeature\Feature;
 
 // Test class that will test the CreateFlag class
@@ -64,8 +64,8 @@ class EvaluationTest extends TestCase
     {
         $flagName = uniqid('flag');
         /* @var $flagApi FlagApi */
-        $createFlag = app(CreateFlag::class);
-        $flag = $createFlag->createFlag($flagName, $flagName);
+        $booleanFlag = app(BooleanFlag::class);
+        $flag = $booleanFlag->createBooleanFlag($flagName, $flagName);
 
         $flagApi = app(FlagApi::class);
         $setFlagBody = new SetFlagEnabledRequest();
