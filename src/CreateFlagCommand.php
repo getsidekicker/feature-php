@@ -1,6 +1,6 @@
 <?php
 
-namespace Sidekicker\FlagrFeatureLaravel;
+namespace Sidekicker\FlagrFeature;
 
 use Illuminate\Console\Command;
 

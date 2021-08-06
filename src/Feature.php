@@ -1,6 +1,6 @@
 <?php
 
-namespace Sidekicker\FlagrFeatureLaravel;
+namespace Sidekicker\FlagrFeature;
 
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\Model\EvalContext;

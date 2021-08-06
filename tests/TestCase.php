@@ -1,9 +1,9 @@
 <?php
 
-namespace Sidekicker\FlagrFeatureLaravel\Tests;
+namespace Sidekicker\FlagrFeature\Tests;
 
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
-use Sidekicker\FlagrFeatureLaravel\FlagrFeatureServiceProvider;
+use Sidekicker\FlagrFeature\FlagrFeatureServiceProvider;
 
 class TestCase extends TestbenchTestCase
 {

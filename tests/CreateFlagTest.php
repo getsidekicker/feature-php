@@ -1,9 +1,9 @@
 <?php
 
-namespace Sidekicker\FlagrFeatureLaravel\Tests;
+namespace Sidekicker\FlagrFeature\Tests;
 
 use Illuminate\Testing\PendingCommand;
-use Sidekicker\FlagrFeatureLaravel\CreateFlag;
+use Sidekicker\FlagrFeature\CreateFlag;
 
 // Test class that will test the CreateFlag class
 class CreateFlagTest extends TestCase

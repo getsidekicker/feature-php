@@ -34,7 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Sidekicker\\FlagrFeatureLaravel\\": "src/"
+      "Sidekicker\\FlagrFeature\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -42,7 +42,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Sidekicker\\FlagrFeatureLaravel\\Tests\\": "tests/"
+      "Sidekicker\\FlagrFeature\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -52,7 +52,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Sidekicker\\FlagrFeatureLaravel\\FlagrFeatureServiceProvider"
+        "Sidekicker\\FlagrFeature\\FlagrFeatureServiceProvider"
       ]
     }
   },

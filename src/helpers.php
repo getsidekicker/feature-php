@@ -1,6 +1,6 @@
 <?php
 
-use Sidekicker\FlagrFeatureLaravel\Feature;
+use Sidekicker\FlagrFeature\Feature;
 
 if (!function_exists('feature_eval')) {
     /**

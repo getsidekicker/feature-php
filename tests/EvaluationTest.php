@@ -1,12 +1,12 @@
 <?php
 
-namespace Sidekicker\FlagrFeatureLaravel\Tests;
+namespace Sidekicker\FlagrFeature\Tests;
 
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Model\Flag;
 use Flagr\Client\Model\SetFlagEnabledRequest;
-use Sidekicker\FlagrFeatureLaravel\CreateFlag;
-use Sidekicker\FlagrFeatureLaravel\Feature;
+use Sidekicker\FlagrFeature\CreateFlag;
+use Sidekicker\FlagrFeature\Feature;
 
 // Test class that will test the CreateFlag class
 class EvaluationTest extends TestCase

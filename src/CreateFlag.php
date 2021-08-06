@@ -1,6 +1,6 @@
 <?php
 
-namespace Sidekicker\FlagrFeatureLaravel;
+namespace Sidekicker\FlagrFeature;
 
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\TagApi;
