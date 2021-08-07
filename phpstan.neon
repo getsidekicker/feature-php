@@ -5,3 +5,7 @@ parameters:
     paths:
         - ./src
         - ./tests
+    ignoreErrors:
+        - '/Parameter #1 \$attachment of closure expects array/'
+        - '/Cannot call method assertExitCode\(\) on Illuminate\\Testing\\PendingCommand\|int/'
+

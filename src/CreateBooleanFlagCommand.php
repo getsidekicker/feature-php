@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 //Create Laravel Command to create a new flag
 class CreateBooleanFlagCommand extends Command
 {
-    protected $signature = 'feature:create-boolean-flag {--key=} {--description=} {[--tags=*]}';
+    protected $signature = 'feature:create-boolean-flag {--key=} {--description=} [{--tags=*}]';
 
     protected $description = 'Create a new boolean flag within flagr';
 
@@ -27,7 +27,6 @@ class CreateBooleanFlagCommand extends Command
 
         if (!is_string($key) || !is_string($description) || !is_array($tags)) {
             $this->error('Please provide a valid key, description and tags');
-
             return Command::FAILURE;
         }
 
