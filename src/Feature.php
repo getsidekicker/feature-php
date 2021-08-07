@@ -3,6 +3,7 @@
 namespace Sidekicker\FlagrFeature;
 
 use Flagr\Client\Api\EvaluationApi;
+use Flagr\Client\ApiException;
 use Flagr\Client\Model\EvalContext;
 
 class Feature
@@ -15,8 +16,6 @@ class Feature
      * @param string $flag
      * @param array<mixed, mixed> $context
      *
-     * @throws \Flagr\Client\ApiException
-     *
      * @return boolean
      */
     public function match(string $flag, array $context = []): bool
@@ -26,7 +25,7 @@ class Feature
         $this->evaluate(
             $flag,
             $context,
-            on: function (?object $attachment) use (&$match) {
+            on: function (?array $attachment) use (&$match) {
                 $match = true;
             }
         );
@@ -39,20 +38,26 @@ class Feature
      * @param array<mixed, mixed> $context
      * @param callable ...$callbacks
      *
-     * @throws \Flagr\Client\ApiException
-     *
      * @return void
      */
     public function evaluate(string $flag, array $context = [], callable ...$callbacks): void
     {
         $evalContext = new EvalContext();
         $evalContext->setFlagKey($flag);
-        $evaluation = $this->evaluator->postEvaluation($evalContext);
 
-        $callback = $callbacks[$evaluation->getVariantKey()]
+        try {
+            $evaluation = $this->evaluator->postEvaluation($evalContext);
+            $variantKey = $evaluation->getVariantKey();
+            $attachment = $evaluation->getVariantAttachment();
+        } catch (ApiException $e) {
+            $variantKey = 'error';
+            $attachment = [];
+        }
+
+        $callback = $callbacks[$variantKey]
             ?? $callbacks['otherwise']
-            ?? fn (?object $attachment) => false;
+            ?? fn (?array $attachment) => false;
 
-        $callback($evaluation->getVariantAttachment());
+        $callback($attachment);
     }
 }
