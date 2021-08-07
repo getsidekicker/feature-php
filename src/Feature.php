@@ -8,8 +8,24 @@ use Flagr\Client\Model\EvalContext;
 
 class Feature
 {
+    /**
+     * @var array<mixed>
+     */
+    private array $globalContext = [];
+
     public function __construct(private EvaluationApi $evaluator)
     {
+    }
+
+    /**
+     * @param array<mixed> $context
+     * @return self
+     */
+    public function setGlobalContext(array $context): self
+    {
+        $this->globalContext = $context;
+
+        return $this;
     }
 
     /**
@@ -44,6 +60,7 @@ class Feature
     {
         $evalContext = new EvalContext();
         $evalContext->setFlagKey($flag);
+        $evalContext->setEntityContext(array_merge($this->globalContext, $context));
 
         try {
             $evaluation = $this->evaluator->postEvaluation($evalContext);

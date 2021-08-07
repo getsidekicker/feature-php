@@ -27,6 +27,7 @@ class CreateBooleanFlagCommand extends Command
 
         if (!is_string($key) || !is_string($description) || !is_array($tags)) {
             $this->error('Please provide a valid key, description and tags');
+
             return Command::FAILURE;
         }
 

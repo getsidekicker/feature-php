@@ -25,7 +25,7 @@ class TestCase extends TestbenchTestCase
     protected function getEnvironmentSetUp($app): void
     {
         config()->set('flagr-feature.flagr_url', env('FEATURE_FLAGR_URL'));
-        config()->set('flagr-feature.auth', "basic");
+        config()->set('flagr-feature.auth', 'basic');
         config()->set('flagr-feature.basic.username', 'flagr');
         config()->set('flagr-feature.basic.password', 'flagr');
     }
