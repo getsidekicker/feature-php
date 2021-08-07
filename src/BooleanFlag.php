@@ -15,7 +15,7 @@ class BooleanFlag
     }
 
     /**
-     * @param string $name
+     * @param string $key
      * @param string $description
      * @param array<string, string> $tags
      *
@@ -23,11 +23,11 @@ class BooleanFlag
      *
      * @return Flag
      */
-    public function createBooleanFlag(string $name, string $description, array $tags = []): Flag
+    public function createBooleanFlag(string $key, string $description, array $tags = []): Flag
     {
         $body = new CreateFlagRequest();
 
-        $body->setKey($name);
+        $body->setKey($key);
         $body->setDescription($description);
         $body->setTemplate('simple_boolean_flag');
 
