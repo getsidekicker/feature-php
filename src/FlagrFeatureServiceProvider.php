@@ -53,15 +53,43 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         });
 
         $this->app->bind(FlagApi::class, function () {
-            return new FlagApi(
-                client: $this->createGuzzleClient()
-            );
+            return new class(client: $this->createGuzzleClient()) extends FlagApi {
+                /**
+                 * @return array<mixed>
+                 */
+                protected function createHttpClientOption(): array
+                {
+                    $options = parent::createHttpClientOption();
+                    if (config('flagr-feature.auth') === 'basic') {
+                        $options['auth'] = [
+                            config('flagr-feature.basic.username'),
+                            config('flagr-feature.basic.password')
+                        ];
+                    }
+
+                    return $options;
+                }
+            };
         });
 
         $this->app->bind(TagApi::class, function () {
-            return new TagApi(
-                client: $this->createGuzzleClient()
-            );
+            return new class(client: $this->createGuzzleClient()) extends TagApi {
+                /**
+                 * @return array<mixed>
+                 */
+                protected function createHttpClientOption(): array
+                {
+                    $options = parent::createHttpClientOption();
+                    if (config('flagr-feature.auth') === 'basic') {
+                        $options['auth'] = [
+                            config('flagr-feature.basic.username'),
+                            config('flagr-feature.basic.password')
+                        ];
+                    }
+
+                    return $options;
+                }
+            };
         });
     }
 }

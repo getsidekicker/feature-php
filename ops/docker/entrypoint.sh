@@ -9,7 +9,7 @@ if [[ "${DB_HOST-false}" != "false" ]]; then
 fi
 
 if [[ "${FEATURE_FLAGR_URL-false}" != "false" ]]; then
-    await "${FEATURE_FLAGR_URL}"
+    await "${FEATURE_FLAGR_URL}/api/v1/health"
 fi
 
 exec "$@"

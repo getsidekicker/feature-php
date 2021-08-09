@@ -16,9 +16,8 @@ class BooleanFlagTest extends TestCase
 
     public function testCreateBooleanFlagCommand(): void
     {
-        $return = $this->artisan('feature:create-boolean-flag', ['--name' => uniqid('test-flag'), '--description' => 'This is a test flag']);
+        $return = $this->artisan('feature:create-boolean-flag', ['--key' => uniqid('test-flag'), '--description' => 'This is a test flag']);
         $this->assertInstanceOf(PendingCommand::class, $return);
-        //@phpstan-ignore-next-line
         $return->assertExitCode(0);
     }
 }
