@@ -18,11 +18,13 @@ if (!function_exists('feature_eval')) {
 if (!function_exists('feature_match')) {
     /**
      * @param string $flag
-     * @param array<mixed,mixed> $context
+     * @param array<mixed> $context
+     * @param array<mixed>|null $matchAttachment
+     * @param string $matchVariant
      * @return boolean
      */
-    function feature_match(string $flag, array $context = []): bool
+    function feature_match(string $flag, array $context = [], ?array &$matchAttachment = null, string $matchVariant = 'on'): bool
     {
-        return app(Feature::class)->match($flag, $context);
+        return app(Feature::class)->match($flag, $context, $matchAttachment, $matchVariant);
     }
 }
