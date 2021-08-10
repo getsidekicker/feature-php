@@ -39,14 +39,33 @@ class EvaluationTest extends TestCase
         $this->assertTrue($evaluated);
     }
 
-    public function testMatch(): void
+    public function testMatchVariant(): void
     {
         $flag = $this->createFlag();
         $feature = app(Feature::class);
 
-        $this->assertTrue($feature->match(
-            $flag->getKey()
+        $this->assertFalse($feature->match(
+            flag: $flag->getKey(),
+            matchVariant: 'random'
         ));
+
+        $this->assertTrue($feature->match(
+            flag: $flag->getKey(),
+            matchVariant: 'on'
+        ));
+    }
+
+    public function testMatchAttachment(): void
+    {
+        $flag = $this->createFlag();
+        $feature = app(Feature::class);
+        $matchAttachment = 'something';
+
+        $this->assertTrue($feature->match(
+            flag: $flag->getKey(),
+            matchAttachment: $matchAttachment
+        ));
+        $this->assertNull($matchAttachment);
     }
 
     public function testFunctionsExported(): void

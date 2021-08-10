@@ -30,20 +30,23 @@ class Feature
 
     /**
      * @param string $flag
-     * @param array<mixed, mixed> $context
-     *
+     * @param array<mixed> $context
+     * @param array<mixed> $matchAttachment
+     * @param string $matchVariant
      * @return boolean
      */
-    public function match(string $flag, array $context = []): bool
+    public function match(string $flag, array $context = [], ?array &$matchAttachment = null, string $matchVariant = 'on'): bool
     {
         $match = false;
+        $matchAttachment = null;
 
         $this->evaluate(
             $flag,
             $context,
-            on: function (?array $attachment) use (&$match) {
+            ...[$matchVariant => function (?array $attachment) use (&$match, &$matchAttachment) {
                 $match = true;
-            }
+                $matchAttachment = $attachment;
+            }]
         );
 
         return $match;
