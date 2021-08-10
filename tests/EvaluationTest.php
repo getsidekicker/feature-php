@@ -59,7 +59,7 @@ class EvaluationTest extends TestCase
     {
         $flag = $this->createFlag();
         $feature = app(Feature::class);
-        $matchAttachment = 'something';
+        $matchAttachment = ['something'];
 
         $this->assertTrue($feature->match(
             flag: $flag->getKey(),
