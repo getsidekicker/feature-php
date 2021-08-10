@@ -25,7 +25,16 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         $this->registerClasses();
     }
 
-    protected function createGuzzleClient(): Client
+    public function requestContext(): array
+    {
+        return [
+            'env' => $this->app->environment(),
+            'user' => request()->user(),
+            'url' => request()->getBaseUrl()
+        ];
+    }
+
+    public function createGuzzleClient(): Client
     {
         return new Client([
             'base_uri' => config('flagr-feature.flagr_url'),
@@ -37,11 +46,14 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
     protected function registerClasses(): void
     {
         $this->app->bind(Feature::class, function () {
-            return new Feature(
+            $feature = new Feature(
                 new EvaluationApi(
                     client: $this->createGuzzleClient()
                 )
             );
+            $feature->setGlobalContext($this->requestContext());
+
+            return $feature;
         });
 
         $this->app->alias(Feature::class, 'feature');
