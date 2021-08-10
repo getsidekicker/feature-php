@@ -41,6 +41,10 @@ if (app('feature')->match('flag')) {
 }
 ```
 
+## Context
+
+By default, context is is sent to Flagr as part of the evaluation call. This can be used to add constraints against segments
+
 ## Creating new feature flag
 
 Flags can be created in the format `php artisan feature:create-flag {--name} {--description} [{--tags=*}]`. This will use the simple boolean flag type within Flagr

@@ -2,6 +2,8 @@
 
 namespace Sidekicker\FlagrFeature\Tests;
 
+use Illuminate\Http\Request;
+use Sidekicker\FlagrFeature\Feature;
 use Sidekicker\FlagrFeature\FlagrFeatureServiceProvider;
 
 // Test class that will test the CreateFlag class
@@ -9,7 +11,7 @@ class ServiceProviderTest extends TestCase
 {
     public function testRequestContext(): void
     {
-        $serviceProvider = app(FlagrFeatureServiceProvider::class);
+        $serviceProvider = new FlagrFeatureServiceProvider(app());
         $this->assertEquals(
             [
                 'env' => 'testing',
@@ -21,16 +23,13 @@ class ServiceProviderTest extends TestCase
             ],
             $serviceProvider->requestContext()
         );
-    }
 
-    public function testCreateGuzzleClient(): void
-    {
-        $serviceProvider = app(FlagrFeatureServiceProvider::class);
-        $client = $serviceProvider->createGuzzleClient();
-        $this->assertInstanceOf(\GuzzleHttp\Client::class, $client);
-        $this->assertEquals('http://flagr.local', $client->getConfig()['base_uri']);
-        $this->assertEquals('timeout', $client->getConfig()['timeout']);
-        $this->assertEquals('connect_timeout', $client->getConfig()['connect_timeout']);
+
+        $this->app->instance('request', Request::capture());
+        $this->assertEquals(
+            'flagr.request.local',
+            $serviceProvider->requestContext()['url']
+        );
     }
 
     public function testFunctionsExported(): void

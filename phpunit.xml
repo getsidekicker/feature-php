@@ -18,8 +18,9 @@
   <logging>
     <junit outputFile="build/report.junit.xml" />
   </logging>
-  <environment>
-    <variable name="APP_ENV" value="testing" />
-    <variable name="APP_URL" value="http://flagr.local" />
-  </environment>
+  <php>
+    <server name="APP_ENV" value="testing"/>
+    <server name="APP_URL" value="http://flagr.local" />
+    <server name="SERVER_NAME" value="flagr.request.local" />
+  </php>
 </phpunit>
