@@ -68,17 +68,6 @@ class EvaluationTest extends TestCase
         $this->assertNull($matchAttachment);
     }
 
-    public function testFunctionsExported(): void
-    {
-        $this->assertTrue(function_exists('feature_eval'));
-        $this->assertTrue(function_exists('feature_match'));
-    }
-
-    public function testAlias(): void
-    {
-        $this->assertInstanceOf(Feature::class, app('feature'));
-    }
-
     private function createFlag(): Flag
     {
         $flagName = uniqid('flag');

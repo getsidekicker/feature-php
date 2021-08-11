@@ -7,6 +7,8 @@ use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\TagApi;
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Auth\Factory;
+use Illuminate\Http\Request;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -25,7 +27,19 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         $this->registerClasses();
     }
 
-    protected function createGuzzleClient(): Client
+    /**
+     * @return array<mixed>
+     */
+    public function requestContext(): array
+    {
+        return [
+            'env' => $this->app->environment(),
+            'user' => $this->app->get(Factory::class)->user()?->toArray() ?? [],
+            'host' => $this->app->get(Request::class)->getHost() ?: parse_url(env('APP_URL'), PHP_URL_HOST)
+        ];
+    }
+
+    public function createGuzzleClient(): Client
     {
         return new Client([
             'base_uri' => config('flagr-feature.flagr_url'),
@@ -37,11 +51,14 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
     protected function registerClasses(): void
     {
         $this->app->bind(Feature::class, function () {
-            return new Feature(
+            $feature = new Feature(
                 new EvaluationApi(
                     client: $this->createGuzzleClient()
                 )
             );
+            $feature->setGlobalContext($this->requestContext());
+
+            return $feature;
         });
 
         $this->app->alias(Feature::class, 'feature');
