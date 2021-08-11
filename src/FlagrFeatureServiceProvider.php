@@ -8,7 +8,6 @@ use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\TagApi;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Auth\Factory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -71,8 +70,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         });
 
         $this->app->bind(FlagApi::class, function () {
-            return new class(client: $this->createGuzzleClient()) extends FlagApi
-            {
+            return new class(client: $this->createGuzzleClient()) extends FlagApi {
                 /**
                  * @return array<mixed>
                  */
@@ -92,8 +90,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         });
 
         $this->app->bind(TagApi::class, function () {
-            return new class(client: $this->createGuzzleClient()) extends TagApi
-            {
+            return new class(client: $this->createGuzzleClient()) extends TagApi {
                 /**
                  * @return array<mixed>
                  */
