@@ -70,8 +70,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         });
 
         $this->app->bind(FlagApi::class, function () {
-            return new class(client: $this->createGuzzleClient()) extends FlagApi
-            {
+            return new class(client: $this->createGuzzleClient()) extends FlagApi {
                 /**
                  * @return array<mixed>
                  */
@@ -91,8 +90,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         });
 
         $this->app->bind(TagApi::class, function () {
-            return new class(client: $this->createGuzzleClient()) extends TagApi
-            {
+            return new class(client: $this->createGuzzleClient()) extends TagApi {
                 /**
                  * @return array<mixed>
                  */
