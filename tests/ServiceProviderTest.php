@@ -11,7 +11,7 @@ class ServiceProviderTest extends TestCase
 {
     public function testRequestContext(): void
     {
-        $serviceProvider = new FlagrFeatureServiceProvider(app());
+        $serviceProvider = new FlagrFeatureServiceProvider($this->app);
         $this->assertEquals(
             [
                 'env' => 'testing',
