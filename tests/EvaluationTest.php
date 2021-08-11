@@ -68,12 +68,31 @@ class EvaluationTest extends TestCase
         $this->assertNull($matchAttachment);
     }
 
+    public function testTags(): void
+    {
+        $flag = $this->createFlag();
+        config()->set('flagr-feature.tags', ['tag']);
+        $feature = app(Feature::class);
+
+        $this->assertTrue($feature->match(
+            flag: $flag->getKey()
+        ));
+
+        config()->set('flagr-feature.tags', ['non-matching-tag']);
+        $feature = app(Feature::class);
+        $this->assertFalse($feature->match(
+            flag: $flag->getKey()
+        ));
+
+        config()->set('flagr-feature.tags', []);
+    }
+
     private function createFlag(): Flag
     {
         $flagName = uniqid('flag');
         /* @var $flagApi FlagApi */
         $booleanFlag = app(BooleanFlag::class);
-        $flag = $booleanFlag->createBooleanFlag($flagName, $flagName);
+        $flag = $booleanFlag->createBooleanFlag($flagName, $flagName, ['tag']);
 
         $flagApi = app(FlagApi::class);
         $setFlagBody = new SetFlagEnabledRequest();
