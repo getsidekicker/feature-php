@@ -6,8 +6,7 @@ parameters:
         - ./src
         - ./tests
     ignoreErrors:
-        - '/Parameter #1 \$attachment of closure expects array/'
         - '/Cannot call method assertExitCode\(\) on Illuminate\\Testing\\PendingCommand\|int/'
-        - '/Flagr\\Client\\Model\\EvalContext::setEntityContext\(\) expects object, array given/'
+        - '/EvaluationBatchRequest::setEntities\(\) expects array/'
         - '/Access to an undefined property Illuminate\\Foundation\\Auth\\User/'
 

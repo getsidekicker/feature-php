@@ -77,6 +77,11 @@ class Feature
         $callback($attachment);
     }
 
+    /**
+     * @param string $flag
+     * @param array<mixed> $context
+     * @return array<mixed>
+     */
     private function performEvaluation(string $flag, array $context): array
     {
         if ($this->evaluationResults === null) {
