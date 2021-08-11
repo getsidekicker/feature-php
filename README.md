@@ -8,7 +8,7 @@ To use this package, you will need to have [Flagr](https://checkr.github.io/flag
 
 ### Publish config
 
-`php artisan vendor:config`
+`php artisan vendor:publish --tag=flagr-feature-laravel-config`
 
 ## Usage
 
