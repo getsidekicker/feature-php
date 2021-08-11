@@ -2,7 +2,9 @@
 
 namespace Sidekicker\FlagrFeature\Tests;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\User;
+use Mockery;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 use Sidekicker\FlagrFeature\FlagrFeatureServiceProvider;
 
@@ -29,10 +31,9 @@ class TestCase extends TestbenchTestCase
         config()->set('flagr-feature.auth', 'basic');
         config()->set('flagr-feature.basic.username', 'flagr');
         config()->set('flagr-feature.basic.password', 'flagr');
-        $user = new User([
-            'id' => 1,
-            'username' => 'user'
-        ]);
+        $user = new User();
+        $user->id = 1;
+        $user->username = 'user';
         $app['auth']->setUser($user);
     }
 }
