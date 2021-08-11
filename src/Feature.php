@@ -4,7 +4,9 @@ namespace Sidekicker\FlagrFeature;
 
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\ApiException;
-use Flagr\Client\Model\EvalContext;
+use Flagr\Client\Model\EvaluationBatchRequest;
+use Flagr\Client\Model\EvaluationBatchResponse;
+use Illuminate\Config\Repository;
 
 class Feature
 {
@@ -12,6 +14,11 @@ class Feature
      * @var array<mixed>
      */
     private array $globalContext = [];
+
+    /**
+     * @var array<mixed>|null
+     */
+    private ?array $evaluationResults = null;
 
     public function __construct(private EvaluationApi $evaluator)
     {
@@ -61,23 +68,41 @@ class Feature
      */
     public function evaluate(string $flag, array $context = [], callable ...$callbacks): void
     {
-        $evalContext = new EvalContext();
-        $evalContext->setFlagKey($flag);
-        $evalContext->setEntityContext(array_merge($this->globalContext, $context));
-
-        try {
-            $evaluation = $this->evaluator->postEvaluation($evalContext);
-            $variantKey = $evaluation->getVariantKey();
-            $attachment = $evaluation->getVariantAttachment();
-        } catch (ApiException $e) {
-            $variantKey = 'error';
-            $attachment = [];
-        }
+        [$variantKey, $attachment] = $this->performEvaluation($flag, $context);
 
         $callback = $callbacks[$variantKey]
             ?? $callbacks['otherwise']
             ?? fn (?array $attachment) => false;
 
         $callback($attachment);
+    }
+
+    private function performEvaluation(string $flag, array $context): array
+    {
+        if ($this->evaluationResults === null) {
+            $this->evaluationResults = [];
+            $evaluationBatchRequest = new EvaluationBatchRequest();
+            if (is_array(config('flagr-feature.tags')) && count(config('flagr-feature.tags')) > 0) {
+                $evaluationBatchRequest->setFlagTags(config('flagr-feature.tags'));
+            } else {
+                $evaluationBatchRequest->setFlagKeys([$flag]);
+            }
+            $evaluationBatchRequest->setEntities([array_merge($this->globalContext, $context)]);
+
+            try {
+                $results = $this->evaluator->postEvaluationBatch($evaluationBatchRequest)->getEvaluationResults() ?? [];
+
+                foreach ($results as $evaluationResult) {
+                    $this->evaluationResults[$evaluationResult->getFlagKey()] = [
+                        $evaluationResult->getVariantKey(),
+                        $evaluationResult->getVariantAttachment()
+                    ];
+                }
+            } catch (ApiException $e) {
+                //
+            }
+        }
+
+        return $this->evaluationResults[$flag] ?? ['', null];
     }
 }

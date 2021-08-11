@@ -4,6 +4,12 @@
 
 To use this package, you will need to have [Flagr](https://checkr.github.io/flagr) installed and accessible
 
+## Installation
+
+### Publish config
+
+`php artisan vendor:config`
+
 ## Usage
 
 ### Block execution
