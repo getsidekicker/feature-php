@@ -29,9 +29,10 @@ class TestCase extends TestbenchTestCase
         config()->set('flagr-feature.auth', 'basic');
         config()->set('flagr-feature.basic.username', 'flagr');
         config()->set('flagr-feature.basic.password', 'flagr');
-        $user = new User();
-        $user->id = 1;
-        $user->username = 'user';
+        $user = new User([
+            'id' => 1,
+            'username' => 'user'
+        ]);
         $app['auth']->setUser($user);
     }
 }
