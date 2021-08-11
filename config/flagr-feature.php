@@ -11,5 +11,7 @@ return [
     'basic' => [
         'username' => env('FEATURE_AUTH_BASIC_USERNAME'),
         'password' => env('FEATURE_AUTH_BASIC_PASSWORD'),
-    ]
+    ],
+    // tags
+    'tags' => []
 ];
