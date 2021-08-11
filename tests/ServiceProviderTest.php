@@ -19,7 +19,7 @@ class ServiceProviderTest extends TestCase
                     'id' => 1,
                     'username' => 'user'
                 ],
-                'url' => 'flagr.local'
+                'host' => 'flagr.local'
             ],
             $serviceProvider->requestContext()
         );
@@ -28,7 +28,7 @@ class ServiceProviderTest extends TestCase
         $this->app->instance('request', Request::capture());
         $this->assertEquals(
             'flagr.request.local',
-            $serviceProvider->requestContext()['url']
+            $serviceProvider->requestContext()['host']
         );
     }
 
