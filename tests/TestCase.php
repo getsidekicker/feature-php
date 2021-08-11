@@ -2,9 +2,7 @@
 
 namespace Sidekicker\FlagrFeature\Tests;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\User;
-use Mockery;
 use Orchestra\Testbench\TestCase as TestbenchTestCase;
 use Sidekicker\FlagrFeature\FlagrFeatureServiceProvider;
 
