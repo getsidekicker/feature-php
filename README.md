@@ -43,7 +43,7 @@ if (app('feature')->match('flag')) {
 
 ## Context
 
-By default, context is is sent to Flagr as part of the evaluation call. This can be used to add constraints against segments
+By default, context is sent to Flagr as part of the evaluation call. This can be used to add constraints against segments.
 
 ## Creating new feature flag
 
