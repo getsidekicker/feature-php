@@ -5,8 +5,6 @@ namespace Sidekicker\FlagrFeature;
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\ApiException;
 use Flagr\Client\Model\EvaluationBatchRequest;
-use Flagr\Client\Model\EvaluationBatchResponse;
-use Illuminate\Config\Repository;
 
 class Feature
 {
