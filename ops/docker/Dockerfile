@@ -11,6 +11,8 @@ RUN curl -s -f -L -o await https://github.com/betalo-sweden/await/releases/downl
     chmod +x await && \
     mv await /usr/local/bin/await
 
+RUN pecl install xdebug
+
 ENTRYPOINT [ "/app/ops/docker/entrypoint.sh" ]
 
 CMD [ "/app/vendor/bin/phpunit"]

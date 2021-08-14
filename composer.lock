@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6afe7df71a7e63f48ad6301bfe31b6d2",
+    "content-hash": "b1d7a733d334fa83fd31c096c0da127c",
     "packages": [
         {
             "name": "brick/math",
@@ -64,16 +64,16 @@
         },
         {
             "name": "dflydev/dot-access-data",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dflydev/dflydev-dot-access-data.git",
-                "reference": "e04ff030d24a33edc2421bef305e32919dd78fc3"
+                "reference": "0992cc19268b259a39e86f296da5f0677841f42c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-data/zipball/e04ff030d24a33edc2421bef305e32919dd78fc3",
-                "reference": "e04ff030d24a33edc2421bef305e32919dd78fc3",
+                "url": "https://api.github.com/repos/dflydev/dflydev-dot-access-data/zipball/0992cc19268b259a39e86f296da5f0677841f42c",
+                "reference": "0992cc19268b259a39e86f296da5f0677841f42c",
                 "shasum": ""
             },
             "require": {
@@ -133,9 +133,9 @@
             ],
             "support": {
                 "issues": "https://github.com/dflydev/dflydev-dot-access-data/issues",
-                "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.0"
+                "source": "https://github.com/dflydev/dflydev-dot-access-data/tree/v3.0.1"
             },
-            "time": "2021-01-01T22:08:42+00:00"
+            "time": "2021-08-13T13:06:58+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -443,16 +443,16 @@
         },
         {
             "name": "getsidekicker/flagr-client",
-            "version": "1.1.12",
+            "version": "1.13.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsidekicker/flagr-client.git",
-                "reference": "cc2f752151e09fde434c4570e3befaf9aa773c92"
+                "reference": "f8aebc281559b8d338a1f7fe1af87db2c5a8fcbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsidekicker/flagr-client/zipball/cc2f752151e09fde434c4570e3befaf9aa773c92",
-                "reference": "cc2f752151e09fde434c4570e3befaf9aa773c92",
+                "url": "https://api.github.com/repos/getsidekicker/flagr-client/zipball/f8aebc281559b8d338a1f7fe1af87db2c5a8fcbf",
+                "reference": "f8aebc281559b8d338a1f7fe1af87db2c5a8fcbf",
                 "shasum": ""
             },
             "require": {
@@ -460,10 +460,12 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "guzzlehttp/guzzle": "^6.2",
-                "php": ">=7.2"
+                "php": ">=7.4"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.12"
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^0.12.94",
+                "rector/rector": "^0.11.47"
             },
             "type": "library",
             "autoload": {
@@ -473,30 +475,23 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "unlicense"
-            ],
-            "authors": [
-                {
-                    "name": "OpenAPI-Generator contributors",
-                    "homepage": "https://openapi-generator.tech"
-                }
+                "MIT"
             ],
             "description": "Flagr is a feature flagging, A/B testing and dynamic configuration microservice. The base path for all the APIs is \"/api/v1\".",
             "homepage": "https://openapi-generator.tech",
             "keywords": [
                 "api",
+                "flagr",
                 "openapi",
-                "openapi-generator",
-                "openapitools",
                 "php",
                 "rest",
                 "sdk"
             ],
             "support": {
                 "issues": "https://github.com/getsidekicker/flagr-client/issues",
-                "source": "https://github.com/getsidekicker/flagr-client/tree/1.1.12"
+                "source": "https://github.com/getsidekicker/flagr-client/tree/1.13.0"
             },
-            "time": "2021-08-13T01:48:00+00:00"
+            "time": "2021-08-14T04:03:06+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -8436,12 +8431,14 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "getsidekicker/flagr-client": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

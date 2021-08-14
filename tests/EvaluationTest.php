@@ -97,7 +97,7 @@ class EvaluationTest extends TestCase
         $flagApi = app(FlagApi::class);
         $setFlagBody = new SetFlagEnabledRequest();
         $setFlagBody->setEnabled(true);
-        $flagApi->setFlagEnabled($setFlagBody, $flag->getId());
+        $flagApi->setFlagEnabled($flag->getId(), $setFlagBody);
 
         //It takes a while for the flag to be created
         sleep(3);
