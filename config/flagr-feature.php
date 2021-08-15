@@ -13,5 +13,6 @@ return [
         'password' => env('FEATURE_AUTH_BASIC_PASSWORD'),
     ],
     // tags
+    'tag_operator' => 'ANY',
     'tags' => []
 ];

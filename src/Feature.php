@@ -87,6 +87,7 @@ class Feature
             $evaluationBatchRequest = new EvaluationBatchRequest();
             if (is_array(config('flagr-feature.tags')) && count(config('flagr-feature.tags')) > 0) {
                 $evaluationBatchRequest->setFlagTags(config('flagr-feature.tags'));
+                $evaluationBatchRequest->setFlagTagsOperator(config('flagr-feature.tag_operator'));
             } else {
                 $evaluationBatchRequest->setFlagKeys([$flag]);
             }

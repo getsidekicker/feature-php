@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1d7a733d334fa83fd31c096c0da127c",
+    "content-hash": "1f382085af2d08a34368b3c62330067e",
     "packages": [
         {
             "name": "brick/math",
@@ -443,16 +443,16 @@
         },
         {
             "name": "getsidekicker/flagr-client",
-            "version": "1.13.0.x-dev",
+            "version": "1.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsidekicker/flagr-client.git",
-                "reference": "8afeb0af075ee72a9d716a335c6e364b1a6364a4"
+                "reference": "b39590ef440c0854956466bddd03359914ba3446"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsidekicker/flagr-client/zipball/8afeb0af075ee72a9d716a335c6e364b1a6364a4",
-                "reference": "8afeb0af075ee72a9d716a335c6e364b1a6364a4",
+                "url": "https://api.github.com/repos/getsidekicker/flagr-client/zipball/b39590ef440c0854956466bddd03359914ba3446",
+                "reference": "b39590ef440c0854956466bddd03359914ba3446",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +464,6 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^0.12.94",
                 "rector/rector": "^0.11.47"
             },
             "type": "library",
@@ -489,9 +488,9 @@
             ],
             "support": {
                 "issues": "https://github.com/getsidekicker/flagr-client/issues",
-                "source": "https://github.com/getsidekicker/flagr-client/tree/1.13.0"
+                "source": "https://github.com/getsidekicker/flagr-client/tree/1.1.13"
             },
-            "time": "2021-08-15T07:13:14+00:00"
+            "time": "2021-08-15T07:35:32+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -8431,9 +8430,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "getsidekicker/flagr-client": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
