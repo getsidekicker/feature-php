@@ -36,10 +36,16 @@ class ServiceProviderTest extends TestCase
     {
         $this->assertTrue(function_exists('feature_eval'));
         $this->assertTrue(function_exists('feature_match'));
+        $this->assertTrue(function_exists('feature_add_context'));
     }
 
     public function testAlias(): void
     {
         $this->assertInstanceOf(Feature::class, app('feature'));
+    }
+
+    public function testSingleton(): void
+    {
+        $this->assertEquals(app(Feature::class), app('feature'));
     }
 }

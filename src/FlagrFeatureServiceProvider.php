@@ -73,9 +73,11 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
                 new EvaluationApi(
                     client: $this->createGuzzleClient(),
                     config: $this->createConfiguration()
-                )
+                ),
+                config()
             );
-            $feature->setGlobalContext($this->requestContext());
+
+            $feature->setContext($this->requestContext());
 
             return $feature;
         });

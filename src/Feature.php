@@ -5,20 +5,21 @@ namespace Sidekicker\FlagrFeature;
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\ApiException;
 use Flagr\Client\Model\EvaluationBatchRequest;
+use Illuminate\Config\Repository;
 
 class Feature
 {
     /**
      * @var array<mixed>
      */
-    private array $globalContext = [];
+    private array $context = [];
 
     /**
      * @var array<mixed>
      */
     private array $evaluationResults = [];
 
-    public function __construct(private EvaluationApi $evaluator)
+    public function __construct(private EvaluationApi $evaluator, private Repository $config)
     {
     }
 
@@ -26,28 +27,40 @@ class Feature
      * @param array<mixed> $context
      * @return self
      */
-    public function setGlobalContext(array $context): self
+    public function setContext(array $context): self
     {
-        $this->globalContext = $context;
+        //reset results if context has changed
+        $this->evaluationResults = [];
+        $this->context = $context;
+
+        return $this;
+    }
+
+
+    /**
+     * @param array $context
+     * @return self
+     */
+    public function addContext(array $context): self
+    {
+        $this->setContext(array_merge($this->context, $context));
 
         return $this;
     }
 
     /**
      * @param string $flag
-     * @param array<mixed> $context
      * @param array<mixed> $matchAttachment
      * @param string $matchVariant
      * @return boolean
      */
-    public function match(string $flag, array $context = [], ?array &$matchAttachment = null, string $matchVariant = 'on'): bool
+    public function match(string $flag, ?array &$matchAttachment = null, string $matchVariant = 'on'): bool
     {
         $match = false;
         $matchAttachment = null;
 
         $this->evaluate(
             $flag,
-            $context,
             ...[$matchVariant => function (?array $attachment) use (&$match, &$matchAttachment) {
                 $match = true;
                 $matchAttachment = $attachment;
@@ -59,14 +72,13 @@ class Feature
 
     /**
      * @param string $flag
-     * @param array<mixed, mixed> $context
      * @param callable ...$callbacks
      *
      * @return void
      */
-    public function evaluate(string $flag, array $context = [], callable ...$callbacks): void
+    public function evaluate(string $flag, callable ...$callbacks): void
     {
-        [$variantKey, $attachment] = $this->performEvaluation($flag, $context);
+        [$variantKey, $attachment] = $this->performEvaluation($flag);
 
         $callback = $callbacks[$variantKey]
             ?? $callbacks['otherwise']
@@ -77,21 +89,20 @@ class Feature
 
     /**
      * @param string $flag
-     * @param array<mixed> $context
      * @return array<mixed>
      */
-    private function performEvaluation(string $flag, array $context): array
+    private function performEvaluation(string $flag): array
     {
         if (!isset($this->evaluationResults[$flag])) {
             $this->evaluationResults = [];
             $evaluationBatchRequest = new EvaluationBatchRequest();
-            if (is_array(config('flagr-feature.tags')) && count(config('flagr-feature.tags')) > 0) {
-                $evaluationBatchRequest->setFlagTags(config('flagr-feature.tags'));
-                $evaluationBatchRequest->setFlagTagsOperator(config('flagr-feature.tag_operator'));
+            if (is_array($this->config->get('flagr-feature.tags')) && count($this->config->get('flagr-feature.tags')) > 0) {
+                $evaluationBatchRequest->setFlagTags($this->config->get('flagr-feature.tags'));
+                $evaluationBatchRequest->setFlagTagsOperator($this->config->get('flagr-feature.tag_operator', 'ANY'));
             } else {
                 $evaluationBatchRequest->setFlagKeys([$flag]);
             }
-            $evaluationBatchRequest->setEntities([array_merge($this->globalContext, $context)]);
+            $evaluationBatchRequest->setEntities([$this->context]);
 
             try {
 
