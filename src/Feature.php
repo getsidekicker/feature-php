@@ -93,6 +93,7 @@ class Feature
             $evaluationBatchRequest->setEntities([array_merge($this->globalContext, $context)]);
 
             try {
+
                 $results = $this->evaluator->postEvaluationBatch($evaluationBatchRequest)->getEvaluationResults() ?? [];
 
                 foreach ($results as $evaluationResult) {

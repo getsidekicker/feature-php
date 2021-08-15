@@ -71,7 +71,8 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         $this->app->bind(Feature::class, function () {
             $feature = new Feature(
                 new EvaluationApi(
-                    client: $this->createGuzzleClient()
+                    client: $this->createGuzzleClient(),
+                    config: $this->createConfiguration()
                 )
             );
             $feature->setGlobalContext($this->requestContext());

@@ -65,7 +65,7 @@ class EvaluationTest extends TestCase
             flag: $flag->getKey(),
             matchAttachment: $matchAttachment
         ));
-        $this->assertNull($matchAttachment);
+        $this->assertEmpty($matchAttachment);
     }
 
     public function testTags(): void
