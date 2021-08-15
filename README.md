@@ -59,6 +59,13 @@ By default, context is sent to Flagr as part of the evaluation call. This can be
 }
 ```
 
+Additionally, context can be set. Note that any context will be merged over the default context
+
+```php
+feature_add_context([]);
+app('feature')->addContext([]);
+```
+
 ## Creating new feature flag
 
 Flags can be created in the format `php artisan feature:create-flag {--name} {--description} [{--tags=*}]`. This will use the simple boolean flag type within Flagr
