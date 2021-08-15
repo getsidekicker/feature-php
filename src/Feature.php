@@ -5,6 +5,7 @@ namespace Sidekicker\FlagrFeature;
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\ApiException;
 use Flagr\Client\Model\EvaluationBatchRequest;
+use Flagr\Client\Model\EvaluationEntity;
 use Illuminate\Config\Repository;
 
 class Feature
@@ -38,7 +39,7 @@ class Feature
 
 
     /**
-     * @param array $context
+     * @param array<mixed> $context
      * @return self
      */
     public function addContext(array $context): self
@@ -97,22 +98,27 @@ class Feature
             $this->evaluationResults = [];
             $evaluationBatchRequest = new EvaluationBatchRequest();
             if (is_array($this->config->get('flagr-feature.tags')) && count($this->config->get('flagr-feature.tags')) > 0) {
-                $evaluationBatchRequest->setFlagTags($this->config->get('flagr-feature.tags'));
+                $evaluationBatchRequest->setFlagTags($this->config->get('flagr-feature.tags', null));
                 $evaluationBatchRequest->setFlagTagsOperator($this->config->get('flagr-feature.tag_operator', 'ANY'));
             } else {
                 $evaluationBatchRequest->setFlagKeys([$flag]);
             }
-            $evaluationBatchRequest->setEntities([$this->context]);
+            $evaluationBatchRequest->setEntities([
+                new EvaluationEntity(['entity_context' => $this->context])
+            ]);
 
             try {
 
-                $results = $this->evaluator->postEvaluationBatch($evaluationBatchRequest)->getEvaluationResults() ?? [];
+                $response = $this->evaluator->postEvaluationBatch($evaluationBatchRequest);
+                if ($response instanceof  \Flagr\Client\Model\EvaluationBatchResponse) {
+                    $results = $response->getEvaluationResults() ?? [];
 
-                foreach ($results as $evaluationResult) {
-                    $this->evaluationResults[$evaluationResult->getFlagKey()] = [
-                        $evaluationResult->getVariantKey(),
-                        $evaluationResult->getVariantAttachment()
-                    ];
+                    foreach ($results as $evaluationResult) {
+                        $this->evaluationResults[$evaluationResult->getFlagKey()] = [
+                            $evaluationResult->getVariantKey(),
+                            $evaluationResult->getVariantAttachment()
+                        ];
+                    }
                 }
             } catch (ApiException $e) {
                 //

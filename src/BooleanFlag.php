@@ -2,6 +2,7 @@
 
 namespace Sidekicker\FlagrFeature;
 
+use Exception;
 use Flagr\Client\Api\DistributionApi;
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\SegmentApi;
@@ -12,6 +13,7 @@ use Flagr\Client\Model\CreateSegmentRequest;
 use Flagr\Client\Model\CreateTagRequest;
 use Flagr\Client\Model\CreateVariantRequest;
 use Flagr\Client\Model\Distribution;
+use Flagr\Client\Model\Error;
 use Flagr\Client\Model\Flag;
 use Flagr\Client\Model\PutDistributionsRequest;
 use Flagr\Client\Model\Segment;
@@ -31,7 +33,7 @@ class BooleanFlag
     /**
      * @param string $key
      * @param string $description
-     * @param array<string, string> $tags
+     * @param array<string> $tags
      *
      * @throws \Flagr\Client\ApiException
      *
@@ -45,11 +47,19 @@ class BooleanFlag
         $body->setDescription($description);
 
         $flag = $this->flagApi->createFlag($body);
+        if ($flag instanceof Error) {
+            throw new Exception($flag->getMessage());
+        }
+
+        $variant =  $this->createVariant($flag);
+        if ($variant instanceof Error) {
+            throw new Exception($variant->getMessage());
+        }
 
         $this->addTags($flag, $tags);
         $this->createSegment(
             $flag,
-            $this->createVariant($flag),
+            $variant,
             'Feature Enabled'
         );
 
@@ -58,24 +68,24 @@ class BooleanFlag
 
     /**
      * @param Flag $flag
-     * @param array $tags
-     * @return Tag[]
+     * @param array<mixed> $tags
+     * @return \Flagr\Client\Model\Tag[]|\Flagr\Client\Model\Error[]
      */
     private function addTags(Flag $flag, array $tags): array
     {
         return array_map(
             fn ($tag) => $this->tagApi->createTag(
-                $flag->getId(),
+                (int) $flag->getId(),
                 new CreateTagRequest(['value' => $tag])
             ),
             $tags
         );
     }
 
-    private function createVariant(Flag $flag): Variant
+    private function createVariant(Flag $flag): Variant|Error
     {
         return $this->variantApi->createVariant(
-            $flag->getId(),
+            (int) $flag->getId(),
             new CreateVariantRequest([
                 'key' => 'on'
             ])
@@ -85,21 +95,25 @@ class BooleanFlag
     private function createSegment(Flag $flag, Variant $variant, string $description, int $rollout = 100): Segment
     {
         $segment = $this->segmentApi->createSegment(
-            $flag->getId(),
+            (int) $flag->getId(),
             new CreateSegmentRequest([
                 'description' => $description,
                 'rollout_percent' => $rollout,
             ])
         );
 
+        if ($segment instanceof Error) {
+            throw new Exception($segment->getMessage());
+        }
+
         $this->distributionApi->putDistributions(
-            $flag->getId(),
-            $segment->getId(),
+            (int) $flag->getId(),
+            (int) $segment->getId(),
             new PutDistributionsRequest([
                 'distributions' => [
                     new Distribution([
                         'percent' => 100,
-                        'variant_id' => $variant->getId(),
+                        'variant_id' => (int) $variant->getId(),
                         'variant_key' => $variant->getKey()
                     ])
                 ]

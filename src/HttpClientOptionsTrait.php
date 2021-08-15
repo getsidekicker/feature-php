@@ -4,6 +4,9 @@ namespace Sidekicker\FlagrFeature;
 
 trait HttpClientOptionsTrait
 {
+    /**
+     * @return array<mixed>
+     */
     protected function createHttpClientOption()
     {
         $options = parent::createHttpClientOption();
