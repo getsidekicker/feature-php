@@ -108,7 +108,6 @@ class Feature
             ]);
 
             try {
-
                 $response = $this->evaluator->postEvaluationBatch($evaluationBatchRequest);
                 if ($response instanceof  \Flagr\Client\Model\EvaluationBatchResponse) {
                     $results = $response->getEvaluationResults() ?? [];
@@ -121,7 +120,7 @@ class Feature
                     }
                 }
             } catch (ApiException $e) {
-                //
+
             }
         }
 
