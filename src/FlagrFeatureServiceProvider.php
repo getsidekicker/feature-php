@@ -68,7 +68,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
 
     protected function registerClasses(): void
     {
-        $this->app->bind(Feature::class, function () {
+        $this->app->singleton(Feature::class, function () {
             $feature = new Feature(
                 new EvaluationApi(
                     client: $this->createGuzzleClient(),

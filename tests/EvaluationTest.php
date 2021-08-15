@@ -31,7 +31,7 @@ class EvaluationTest extends TestCase
         $feature = app(Feature::class);
         $evaluated = false;
         $feature->evaluate(
-            'no_existent_flag',
+            'non_existent_flag',
             otherwise: function () use (&$evaluated) {
                 $evaluated = true;
             }
@@ -42,6 +42,7 @@ class EvaluationTest extends TestCase
     public function testMatchVariant(): void
     {
         $flag = $this->createFlag();
+        $flag2 = $this->createFlag();
         $feature = app(Feature::class);
 
         $this->assertFalse($feature->match(
@@ -51,6 +52,11 @@ class EvaluationTest extends TestCase
 
         $this->assertTrue($feature->match(
             flag: $flag->getKey(),
+            matchVariant: 'on'
+        ));
+
+        $this->assertTrue($feature->match(
+            flag: $flag2->getKey(),
             matchVariant: 'on'
         ));
     }

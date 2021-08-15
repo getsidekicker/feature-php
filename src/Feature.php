@@ -14,9 +14,9 @@ class Feature
     private array $globalContext = [];
 
     /**
-     * @var array<mixed>|null
+     * @var array<mixed>
      */
-    private ?array $evaluationResults = null;
+    private array $evaluationResults = [];
 
     public function __construct(private EvaluationApi $evaluator)
     {
@@ -82,7 +82,7 @@ class Feature
      */
     private function performEvaluation(string $flag, array $context): array
     {
-        if ($this->evaluationResults === null) {
+        if (!isset($this->evaluationResults[$flag])) {
             $this->evaluationResults = [];
             $evaluationBatchRequest = new EvaluationBatchRequest();
             if (is_array(config('flagr-feature.tags')) && count(config('flagr-feature.tags')) > 0) {
@@ -108,6 +108,9 @@ class Feature
             }
         }
 
-        return $this->evaluationResults[$flag] ?? ['', null];
+        // Only attempt to evaluate a flag once per instantiation
+        $this->evaluationResults[$flag] = $this->evaluationResults[$flag] ?? ['', null];
+
+        return $this->evaluationResults[$flag];
     }
 }
