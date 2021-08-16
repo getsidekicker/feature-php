@@ -21,7 +21,7 @@
   },
   "require": {
     "php": "^8.0",
-    "joshkulesza/php-flagr": "1.1.13.1",
+    "getsidekicker/flagr-client": "1.1.13",
     "guzzlehttp/psr7": "^1.0",
     "spatie/laravel-package-tools": "^1.9"
   },

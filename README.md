@@ -4,6 +4,12 @@
 
 To use this package, you will need to have [Flagr](https://checkr.github.io/flagr) installed and accessible
 
+## Installation
+
+### Publish config
+
+`php artisan vendor:publish --tag=flagr-feature-laravel-config`
+
 ## Usage
 
 ### Block execution
@@ -51,6 +57,13 @@ By default, context is sent to Flagr as part of the evaluation call. This can be
   "user": ["<Array representation of currently authed user>"],
   "host": "<Host as derived from request or APP_URL env>"
 }
+```
+
+Additionally, context can be set. Note that any context will be merged over the default context
+
+```php
+feature_add_context([]);
+app('feature')->addContext([]);
 ```
 
 ## Creating new feature flag

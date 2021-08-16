@@ -28,3 +28,15 @@ if (!function_exists('feature_match')) {
         return app(Feature::class)->match($flag, $context, $matchAttachment, $matchVariant);
     }
 }
+
+
+if (!function_exists('feature_add_context')) {
+    /**
+     * @param array<mixed> $context
+     * @return void
+     */
+    function feature_add_context(array $context = []): void
+    {
+        app(Feature::class)->addContext($context);
+    }
+}
