@@ -54,7 +54,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
     {
         $configuration = new Configuration();
 
-        $configuration->setHost((string) config('flagr-feature.flagr_url') . '/api/v1');
+        $configuration->setHost(config('flagr-feature.flagr_url') . '/api/v1');
 
         if (config('flagr-feature.auth') === 'basic') {
             $configuration->setUsername((string) config('flagr-feature.basic.username'));
