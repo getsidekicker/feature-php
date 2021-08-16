@@ -93,6 +93,7 @@ class EvaluationTest extends TestCase
 
         config()->set('flagr-feature.tags', ['non-matching-tag']);
         $feature = app(Feature::class);
+
         $this->assertFalse($feature->match(
             flag: $flag->getKey()
         ));
@@ -107,6 +108,7 @@ class EvaluationTest extends TestCase
         config()->set('flagr-feature.tag_operator', 'ANY');
         config()->set('flagr-feature.tags', ['tag', 'non-matching-tag']);
         $feature = app(Feature::class);
+
         $this->assertTrue($feature->match(
             flag: $flag->getKey()
         ));
@@ -121,6 +123,7 @@ class EvaluationTest extends TestCase
         config()->set('flagr-feature.tag_operator', 'ALL');
         config()->set('flagr-feature.tags', ['tag', 'non-matching-tag']);
         $feature = app(Feature::class);
+
         $this->assertFalse($feature->match(
             flag: $flag->getKey()
         ));
