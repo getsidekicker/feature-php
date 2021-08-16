@@ -120,7 +120,6 @@ class Feature
                     }
                 }
             } catch (ApiException $e) {
-
             }
         }
 

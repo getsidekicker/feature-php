@@ -2,7 +2,6 @@
 
 namespace Sidekicker\FlagrFeature;
 
-use Flagr\Client\Api\ConstraintApi;
 use Flagr\Client\Api\DistributionApi;
 use Flagr\Client\Api\EvaluationApi;
 use Flagr\Client\Api\FlagApi;
@@ -82,13 +81,6 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         });
 
         $this->app->alias(Feature::class, 'feature');
-
-        $this->app->bind(ConstraintApi::class, function () {
-            return new ConstraintApi(
-                client: $this->createGuzzleClient(),
-                config: $this->createConfiguration()
-            );
-        });
 
         $this->app->bind(FlagApi::class, function () {
             return new class(client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends FlagApi {

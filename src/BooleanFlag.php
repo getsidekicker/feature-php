@@ -2,7 +2,6 @@
 
 namespace Sidekicker\FlagrFeature;
 
-use Exception;
 use Flagr\Client\Api\DistributionApi;
 use Flagr\Client\Api\FlagApi;
 use Flagr\Client\Api\SegmentApi;
@@ -48,12 +47,12 @@ class BooleanFlag
 
         $flag = $this->flagApi->createFlag($body);
         if ($flag instanceof Error) {
-            throw new Exception($flag->getMessage());
+            throw new FlagrFeatureException($flag->getMessage());
         }
 
         $variant =  $this->createVariant($flag);
         if ($variant instanceof Error) {
-            throw new Exception($variant->getMessage());
+            throw new FlagrFeatureException($variant->getMessage());
         }
 
         $this->addTags($flag, $tags);
@@ -103,7 +102,7 @@ class BooleanFlag
         );
 
         if ($segment instanceof Error) {
-            throw new Exception($segment->getMessage());
+            throw new FlagrFeatureException($segment->getMessage());
         }
 
         $this->distributionApi->putDistributions(
