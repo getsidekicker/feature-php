@@ -14,5 +14,6 @@ return [
     ],
     // tags
     'tag_operator' => 'ANY',
-    'tags' => []
+    'tags' => [],
+    'id' => null
 ];

@@ -27,6 +27,7 @@ class Feature
 
     public function __construct(private EvaluationApi $evaluator, private Repository $config)
     {
+        $this->id = $this->config->get('flagr-feature.id');
     }
 
     /**
