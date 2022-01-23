@@ -94,6 +94,11 @@ class BooleanFlag
         );
     }
 
+    /**
+     * @param Flag $flag
+     * @param Collection<array{variant: Variant, percent: int}> $variants
+     * @param string $description
+     */
     private function createSegment(Flag $flag, Collection $variants, string $description): Segment
     {
         $segment = $this->segmentApi->createSegment(

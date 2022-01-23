@@ -138,7 +138,7 @@ class Feature
             try {
                 $response = $this->evaluator->postEvaluationBatch($evaluationBatchRequest);
                 if ($response instanceof  \Flagr\Client\Model\EvaluationBatchResponse) {
-                    $results = $response->getEvaluationResults() ?? [];
+                    $results = $response->getEvaluationResults() ?: [];
 
                     foreach ($results as $evaluationResult) {
                         $this->evaluationResults[$evaluationResult->getFlagKey()] = [

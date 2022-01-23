@@ -12,7 +12,7 @@ trait CreateFlagTrait
     /**
      * @return array{flag: Flag, tag: string}
      */
-    private function createFlag($rollout = 100): array
+    private function createFlag(int $rollout = 100): array
     {
         $flagName = uniqid('flag');
         $tag = uniqid('tag');
