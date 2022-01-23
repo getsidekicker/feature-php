@@ -2,19 +2,17 @@
 
 namespace Sidekicker\FlagrFeature\Tests;
 
-use Flagr\Client\Api\FlagApi;
-use Flagr\Client\Model\Flag;
-use Flagr\Client\Model\SetFlagEnabledRequest;
-use Sidekicker\FlagrFeature\BooleanFlag;
 use Sidekicker\FlagrFeature\Feature;
 
 // Test class that will test the CreateFlag class
 class EvaluationTest extends TestCase
 {
+    use CreateFlagTrait;
+
     // Test that the CreateFlag class can be instantiated
     public function testEvaluation(): void
     {
-        $flag = $this->createFlag();
+        $flag = $this->createFlag()['flag'];
         $feature = app(Feature::class);
         $evaluated = false;
         $feature->evaluate(
@@ -41,8 +39,8 @@ class EvaluationTest extends TestCase
 
     public function testMatchVariant(): void
     {
-        $flag = $this->createFlag();
-        $flag2 = $this->createFlag();
+        $flag = $this->createFlag()['flag'];
+        $flag2 = $this->createFlag()['flag'];
         $feature = app(Feature::class);
 
         $this->assertFalse($feature->match(
@@ -63,7 +61,7 @@ class EvaluationTest extends TestCase
 
     public function testMatchAttachment(): void
     {
-        $flag = $this->createFlag();
+        $flag = $this->createFlag()['flag'];
         $feature = app(Feature::class);
         $matchAttachment = ['something'];
 
@@ -77,11 +75,11 @@ class EvaluationTest extends TestCase
     public function testTags(): void
     {
         $flag = $this->createFlag();
-        config()->set('flagr-feature.tags', ['tag']);
+        config()->set('flagr-feature.tags', [$flag['tag']]);
         $feature = app(Feature::class);
 
         $this->assertTrue($feature->match(
-            flag: $flag->getKey()
+            flag: $flag['flag']->getKey()
         ));
 
         config()->set('flagr-feature.tags', []);
@@ -89,7 +87,7 @@ class EvaluationTest extends TestCase
 
     public function testNonPresentTags(): void
     {
-        $flag = $this->createFlag();
+        $flag = $this->createFlag()['flag'];
 
         config()->set('flagr-feature.tags', ['non-matching-tag']);
         $feature = app(Feature::class);
@@ -106,11 +104,11 @@ class EvaluationTest extends TestCase
         $flag = $this->createFlag();
 
         config()->set('flagr-feature.tag_operator', 'ANY');
-        config()->set('flagr-feature.tags', ['tag', 'non-matching-tag']);
+        config()->set('flagr-feature.tags', [$flag['tag'], 'non-matching-tag']);
         $feature = app(Feature::class);
 
         $this->assertTrue($feature->match(
-            flag: $flag->getKey()
+            flag: $flag['flag']->getKey()
         ));
 
         config()->set('flagr-feature.tags', []);
@@ -121,29 +119,11 @@ class EvaluationTest extends TestCase
         $flag = $this->createFlag();
 
         config()->set('flagr-feature.tag_operator', 'ALL');
-        config()->set('flagr-feature.tags', ['tag', 'non-matching-tag']);
+        config()->set('flagr-feature.tags', [$flag['tag'], 'non-matching-tag']);
         $feature = app(Feature::class);
 
         $this->assertFalse($feature->match(
-            flag: $flag->getKey()
+            flag: $flag['flag']->getKey()
         ));
-    }
-
-    private function createFlag(): Flag
-    {
-        $flagName = uniqid('flag');
-        /* @var $flagApi FlagApi */
-        $booleanFlag = app(BooleanFlag::class);
-        $flag = $booleanFlag->createBooleanFlag($flagName, $flagName, ['tag']);
-
-        $flagApi = app(FlagApi::class);
-        $setFlagBody = new SetFlagEnabledRequest();
-        $setFlagBody->setEnabled(true);
-        $flagApi->setFlagEnabled($flag->getId(), $setFlagBody);
-
-        //It takes a while for the flag to be created
-        sleep(3);
-
-        return $flag;
     }
 }
