@@ -66,6 +66,15 @@ feature_add_context([]);
 app('feature')->addContext([]);
 ```
 
+To ensure that consistent feature treatment is applied across requests, you can supply an optional id
+
+```php
+feature_set_id('user_123');
+app('feature')->setId('user_123');
+
+// evaluation calls
+```
+
 ## Creating new feature flag
 
 Flags can be created in the format `php artisan feature:create-flag {--name} {--description} [{--tags=*}]`. This will use the simple boolean flag type within Flagr
