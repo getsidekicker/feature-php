@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 //Create Laravel Command to create a new flag
 class CreateBooleanFlagCommand extends Command
 {
-    protected $signature = 'feature:create-boolean-flag {--key=} {--description=} [{--tags=*}]';
+    protected $signature = 'feature:create-boolean-flag {--key=} {--description=} [{--tags=*}] [{--percentage=100}]';
 
     protected $description = 'Create a new boolean flag within flagr';
 
@@ -22,11 +22,12 @@ class CreateBooleanFlagCommand extends Command
         $key = $this->option('key');
         $description = $this->option('description');
         $tags = $this->option('tags');
+        $percentage = (int) $this->option('percentage');
 
         $this->info('Creating flag');
 
-        if (!is_string($key) || !is_string($description) || !is_array($tags)) {
-            $this->error('Please provide a valid key, description and tags');
+        if (!is_string($key) || !is_string($description) || !is_array($tags) || !($percentage >= 0 && $percentage <= 100)) {
+            $this->error('Please provide a valid key, description, tags and percentage');
 
             return Command::FAILURE;
         }
@@ -35,7 +36,8 @@ class CreateBooleanFlagCommand extends Command
             $flag = $this->booleanFlag->createBooleanFlag(
                 $key,
                 $description,
-                $tags
+                $tags,
+                $percentage
             );
 
             $this->info('flag ' . $flag->getKey() . '-' . $flag->getId() . ' created');

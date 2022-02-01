@@ -17,6 +17,7 @@ use Flagr\Client\Model\Flag;
 use Flagr\Client\Model\PutDistributionsRequest;
 use Flagr\Client\Model\Segment;
 use Flagr\Client\Model\Variant;
+use Illuminate\Support\Collection;
 
 class BooleanFlag
 {
@@ -38,7 +39,7 @@ class BooleanFlag
      *
      * @return Flag
      */
-    public function createBooleanFlag(string $key, string $description, array $tags = []): Flag
+    public function createBooleanFlag(string $key, string $description, array $tags = [], int $rollout = 100): Flag
     {
         $body = new CreateFlagRequest();
 
@@ -50,17 +51,19 @@ class BooleanFlag
             throw new FlagrFeatureException($flag->getMessage());
         }
 
-        $variant =  $this->createVariant($flag);
-        if ($variant instanceof Error) {
-            throw new FlagrFeatureException($variant->getMessage());
-        }
-
         $this->addTags($flag, $tags);
-        $this->createSegment(
-            $flag,
-            $variant,
-            'Feature Enabled'
-        );
+
+        $variants = collect(['on', $rollout < 100 ? 'off' : null])
+            ->filter()
+            ->mapWithKeys(fn ($key) => [$key => $this->createVariant($flag, $key)])
+            ->map(
+                fn ($variant, $key) => [
+                    'variant' => $variant,
+                    'percent' =>  $key === 'on' ? $rollout : 100 - $rollout
+                ]
+            );
+
+        $this->createSegment($flag, $variants, 'Feature on');
 
         return $flag;
     }
@@ -81,23 +84,28 @@ class BooleanFlag
         );
     }
 
-    private function createVariant(Flag $flag): Variant|Error
+    private function createVariant(Flag $flag, string $key): Variant|Error
     {
         return $this->variantApi->createVariant(
             (int) $flag->getId(),
             new CreateVariantRequest([
-                'key' => 'on'
+                'key' => $key
             ])
         );
     }
 
-    private function createSegment(Flag $flag, Variant $variant, string $description, int $rollout = 100): Segment
+    /**
+     * @param Flag $flag
+     * @param Collection<array{variant: Variant, percent: int}> $variants
+     * @param string $description
+     */
+    private function createSegment(Flag $flag, Collection $variants, string $description): Segment
     {
         $segment = $this->segmentApi->createSegment(
             (int) $flag->getId(),
             new CreateSegmentRequest([
                 'description' => $description,
-                'rollout_percent' => $rollout,
+                'rollout_percent' => 100,
             ])
         );
 
@@ -105,17 +113,20 @@ class BooleanFlag
             throw new FlagrFeatureException($segment->getMessage());
         }
 
+        $distributions = $variants
+            ->map(fn ($variant) => new Distribution([
+                'percent' => $variant['percent'],
+                'variant_id' => (int) $variant['variant']->getId(),
+                'variant_key' => $variant['variant']->getKey()
+            ]))
+            ->values()
+            ->toArray();
+
         $this->distributionApi->putDistributions(
             (int) $flag->getId(),
             (int) $segment->getId(),
             new PutDistributionsRequest([
-                'distributions' => [
-                    new Distribution([
-                        'percent' => 100,
-                        'variant_id' => (int) $variant->getId(),
-                        'variant_key' => $variant->getKey()
-                    ])
-                ]
+                'distributions' => $distributions
             ])
         );
 

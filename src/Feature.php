@@ -11,6 +11,11 @@ use Illuminate\Config\Repository;
 class Feature
 {
     /**
+     * @var string
+     */
+    private ?string $id = null;
+
+    /**
      * @var array<mixed>
      */
     private array $context = [];
@@ -22,6 +27,19 @@ class Feature
 
     public function __construct(private EvaluationApi $evaluator, private Repository $config)
     {
+        $this->id = $this->config->get('flagr-feature.id');
+    }
+
+    /**
+     * @param string $id
+     * @return self
+     */
+    public function setId(?string $id): self
+    {
+        $this->clear();
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -30,8 +48,7 @@ class Feature
      */
     public function setContext(array $context): self
     {
-        //reset results if context has changed
-        $this->evaluationResults = [];
+        $this->clear();
         $this->context = $context;
 
         return $this;
@@ -90,6 +107,28 @@ class Feature
 
     /**
      * @param string $flag
+     *
+     * @return array{flag: string, key: string, attachment: array<mixed>}
+     */
+    public function variant(string $flag): ?array
+    {
+        [$variantKey, $attachment] = $this->performEvaluation($flag);
+
+        return $variantKey
+            ? ['flag' => $flag, 'key' => $variantKey, 'attachment' => $attachment]
+            : null;
+    }
+
+    /**
+     * Clear internal cache
+     */
+    private function clear(): void
+    {
+        $this->evaluationResults = [];
+    }
+
+    /**
+     * @param string $flag
      * @return array<mixed>
      */
     private function performEvaluation(string $flag): array
@@ -104,13 +143,16 @@ class Feature
                 $evaluationBatchRequest->setFlagKeys([$flag]);
             }
             $evaluationBatchRequest->setEntities([
-                new EvaluationEntity(['entity_context' => $this->context])
+                new EvaluationEntity([
+                    'entity_id' => $this->id,
+                    'entity_context' => $this->context
+                ])
             ]);
 
             try {
                 $response = $this->evaluator->postEvaluationBatch($evaluationBatchRequest);
                 if ($response instanceof  \Flagr\Client\Model\EvaluationBatchResponse) {
-                    $results = $response->getEvaluationResults() ?? [];
+                    $results = $response->getEvaluationResults() ?: [];
 
                     foreach ($results as $evaluationResult) {
                         $this->evaluationResults[$evaluationResult->getFlagKey()] = [

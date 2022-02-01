@@ -38,3 +38,14 @@ if (!function_exists('feature_add_context')) {
         app(Feature::class)->addContext($context);
     }
 }
+
+if (!function_exists('feature_set_id')) {
+    /**
+     * @param ?string $id
+     * @return void
+     */
+    function feature_set_id(?string $id): void
+    {
+        app(Feature::class)->setId($id);
+    }
+}

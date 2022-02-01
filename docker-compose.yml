@@ -11,8 +11,8 @@ services:
       FEATURE_FLAGR_URL: "http://flagr:18000"
       DB_HOST: "db"
     volumes:
-      - .:/app:cached
-      - /app/vendor
+      - .:/app
+      
     depends_on:
       - db
       - flagr
@@ -32,7 +32,7 @@ services:
       - db
 
   db:
-    image: mysql:8.0
+    image: mariadb:10.7
     environment:
       MYSQL_ROOT_PASSWORD: flagr
       MYSQL_DATABASE: flagr

@@ -83,31 +83,31 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
         $this->app->alias(Feature::class, 'feature');
 
         $this->app->bind(FlagApi::class, function () {
-            return new class(client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends FlagApi {
+            return new class (client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends FlagApi {
                 use HttpClientOptionsTrait;
             };
         });
 
         $this->app->bind(SegmentApi::class, function () {
-            return new class(client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends SegmentApi {
+            return new class (client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends SegmentApi {
                 use HttpClientOptionsTrait;
             };
         });
 
         $this->app->bind(TagApi::class, function () {
-            return new class(client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends TagApi {
+            return new class (client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends TagApi {
                 use HttpClientOptionsTrait;
             };
         });
 
         $this->app->bind(DistributionApi::class, function () {
-            return new class(client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends DistributionApi {
+            return new class (client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends DistributionApi {
                 use HttpClientOptionsTrait;
             };
         });
 
         $this->app->bind(VariantApi::class, function () {
-            return new class(client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends VariantApi {
+            return new class (client: $this->createGuzzleClient(), config: $this->createConfiguration()) extends VariantApi {
                 use HttpClientOptionsTrait;
             };
         });
