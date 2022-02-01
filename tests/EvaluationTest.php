@@ -24,6 +24,22 @@ class EvaluationTest extends TestCase
         $this->assertTrue($evaluated);
     }
 
+    public function testVariantMethodMatch(): void
+    {
+        $flag = $this->createFlag()['flag'];
+        $feature = app(Feature::class);
+        $variant = $feature->variant($flag->getKey());
+        $this->assertEquals(['flag' => $flag->getKey(), 'key' => 'on', 'attachment' => []], $variant);
+    }
+
+    public function testVariantMethodNoMatch(): void
+    {
+        $flag = $this->createFlag()['flag'];
+        $feature = app(Feature::class);
+        $this->assertNull($feature->variant(uniqid('flag')));
+    }
+
+
     public function testNoMatchEvaluation(): void
     {
         $feature = app(Feature::class);

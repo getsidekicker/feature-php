@@ -106,6 +106,20 @@ class Feature
     }
 
     /**
+     * @param string $flag
+     *
+     * @return array{flag: string, key: string, attachment: array<mixed>}
+     */
+    public function variant(string $flag): ?array
+    {
+        [$variantKey, $attachment] = $this->performEvaluation($flag);
+
+        return $variantKey
+            ? ['flag' => $flag, 'key' => $variantKey, 'attachment' => $attachment]
+            : null;
+    }
+
+    /**
      * Clear internal cache
      */
     private function clear(): void
