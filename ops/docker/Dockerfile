@@ -1,4 +1,4 @@
-FROM php:8.0-cli
+FROM php:8.1.0alpha2-cli
 
 COPY . /app
 WORKDIR /app
