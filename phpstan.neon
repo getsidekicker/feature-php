@@ -7,6 +7,5 @@ parameters:
         - ./src
         - ./tests
     ignoreErrors:
-        - '/Cannot call method assertExitCode\(\) on Illuminate\\Testing\\PendingCommand\|int/'
         - '/Access to an undefined property Illuminate\\Foundation\\Auth\\User/'
 
