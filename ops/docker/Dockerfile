@@ -7,9 +7,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN apt-get update && apt-get install -y bash unzip git
 
-RUN curl -s -f -L -o await https://github.com/betalo-sweden/await/releases/download/v1.2.0/await-linux-amd64 && \
-    chmod +x await && \
-    mv await /usr/local/bin/await
+RUN ARCH=$(dpkg-architecture -q DEB_BUILD_ARCH) \
+    && curl -Lfs https://github.com/sj26/await/releases/download/v1.1.0/await-linux-$ARCH -o /usr/local/bin/await \
+    && chmod +x /usr/local/bin/await
 
 ENTRYPOINT [ "/app/ops/docker/entrypoint.sh" ]
 
