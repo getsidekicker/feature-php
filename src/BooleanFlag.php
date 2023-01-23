@@ -53,13 +53,14 @@ class BooleanFlag
 
         $this->addTags($flag, $tags);
 
-        $variants = collect(['on', $rollout < 100 ? 'off' : null])
-            ->filter()
-            ->mapWithKeys(fn ($key) => [$key => $this->createVariant($flag, $key)])
+        $variants = collect()
+            ->prepend('on')
+            ->when($rollout < 100, fn (Collection $collection) => $collection->push('off'))
+            ->mapWithKeys(fn (string $key) => [$key => $this->createVariant($flag, $key)])
             ->map(
-                fn ($variant, $key) => [
+                fn ($variant, string $key) => [
                     'variant' => $variant,
-                    'percent' =>  $key === 'on' ? $rollout : 100 - $rollout
+                    'percent' => ($key === 'on') ? $rollout : (100 - $rollout)
                 ]
             );
 
