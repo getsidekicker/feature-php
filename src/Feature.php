@@ -10,9 +10,6 @@ use Illuminate\Config\Repository;
 
 class Feature
 {
-    /**
-     * @var string
-     */
     private ?string $id = null;
 
     /**
@@ -30,10 +27,6 @@ class Feature
         $this->id = $this->config->get('flagr-feature.id');
     }
 
-    /**
-     * @param string $id
-     * @return self
-     */
     public function setId(?string $id): self
     {
         $this->clear();
@@ -44,7 +37,6 @@ class Feature
 
     /**
      * @param array<mixed> $context
-     * @return self
      */
     public function setContext(array $context): self
     {
@@ -57,7 +49,6 @@ class Feature
 
     /**
      * @param array<mixed> $context
-     * @return self
      */
     public function addContext(array $context): self
     {
@@ -67,10 +58,7 @@ class Feature
     }
 
     /**
-     * @param string $flag
      * @param array<mixed> $matchAttachment
-     * @param string $matchVariant
-     * @return boolean
      */
     public function match(string $flag, ?array &$matchAttachment = null, string $matchVariant = 'on'): bool
     {
@@ -89,10 +77,8 @@ class Feature
     }
 
     /**
-     * @param string $flag
      * @param callable ...$callbacks
      *
-     * @return void
      */
     public function evaluate(string $flag, callable ...$callbacks): void
     {
@@ -106,7 +92,6 @@ class Feature
     }
 
     /**
-     * @param string $flag
      *
      * @return array{flag: string, key: string, attachment: array<mixed>}
      */
@@ -128,7 +113,6 @@ class Feature
     }
 
     /**
-     * @param string $flag
      * @return array<mixed>
      */
     private function performEvaluation(string $flag): array

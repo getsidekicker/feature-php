@@ -31,13 +31,9 @@ class BooleanFlag
     }
 
     /**
-     * @param string $key
-     * @param string $description
-     * @param array<string> $tags
+     * @param string[] $tags
      *
-     * @throws \Flagr\Client\ApiException
-     *
-     * @return Flag
+     * @throws \Flagr\Client\ApiException|FlagrFeatureException
      */
     public function createBooleanFlag(string $key, string $description, array $tags = [], int $rollout = 100): Flag
     {
@@ -70,7 +66,6 @@ class BooleanFlag
     }
 
     /**
-     * @param Flag $flag
      * @param array<mixed> $tags
      * @return \Flagr\Client\Model\Tag[]|\Flagr\Client\Model\Error[]
      */
@@ -96,9 +91,7 @@ class BooleanFlag
     }
 
     /**
-     * @param Flag $flag
      * @param Collection<array{variant: Variant, percent: int}> $variants
-     * @param string $description
      */
     private function createSegment(Flag $flag, Collection $variants, string $description): Segment
     {
@@ -118,7 +111,7 @@ class BooleanFlag
             ->map(fn ($variant) => new Distribution([
                 'percent' => $variant['percent'],
                 'variant_id' => (int) $variant['variant']->getId(),
-                'variant_key' => $variant['variant']->getKey()
+                'variant_key' => $variant['variant']->getKey(),
             ]))
             ->values()
             ->toArray();
@@ -127,7 +120,7 @@ class BooleanFlag
             (int) $flag->getId(),
             (int) $segment->getId(),
             new PutDistributionsRequest([
-                'distributions' => $distributions
+                'distributions' => $distributions,
             ])
         );
 

@@ -11,7 +11,7 @@ class TestCase extends TestbenchTestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return string[]
      */
