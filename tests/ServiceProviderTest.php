@@ -8,7 +8,9 @@ use ReflectionMethod;
 use Sidekicker\FlagrFeature\Feature;
 use Sidekicker\FlagrFeature\FlagrFeatureServiceProvider;
 
-// Test class that will test the CreateFlag class
+/**
+ * @property-read \Illuminate\Foundation\Application $app
+ */
 class ServiceProviderTest extends TestCase
 {
     public function testRequestContext(): void

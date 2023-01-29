@@ -5,7 +5,7 @@ namespace Sidekicker\FlagrFeature;
 use Flagr\Client\ApiException;
 use Illuminate\Console\Command;
 
-//Create Laravel Command to create a new flag
+// Laravel Command to create a new flag
 class CreateBooleanFlagCommand extends Command
 {
     protected $signature = 'feature:create-boolean-flag {--key=} {--description=} [{--tags=*}] [{--percentage=100}]';

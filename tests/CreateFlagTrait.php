@@ -25,7 +25,7 @@ trait CreateFlagTrait
         $setFlagBody->setEnabled(true);
         $flagApi->setFlagEnabled($flag->getId(), $setFlagBody);
 
-        //It takes a while for the flag to be created
+        // It takes a while for the flag to be created
         sleep(3);
 
         return ['flag' => $flag, 'tag' => $tag];

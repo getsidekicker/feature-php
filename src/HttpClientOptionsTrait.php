@@ -7,7 +7,7 @@ trait HttpClientOptionsTrait
     /**
      * @return array<mixed>
      */
-    protected function createHttpClientOption()
+    protected function createHttpClientOption(): array
     {
         $options = parent::createHttpClientOption();
 
