@@ -40,7 +40,10 @@ return (new PhpCsFixer\Config())
                 'on_multiline' => 'ignore',
             ],
 
-            'no_blank_lines_before_namespace' => false,
+            'blank_lines_before_namespace' => [
+                'min_line_breaks' => 2,
+                'max_line_breaks' => 2,
+            ],
 
             // ensure there is no code on the same line as the PHP open tag and it is followed by a blank line.
             // we use defined('SYSPATH') or die('No direct script access.') everywhere, otherwise I would turn this on.
@@ -133,6 +136,8 @@ return (new PhpCsFixer\Config())
 
             // standardize spaces around ternary operator.
             'ternary_operator_spaces' => true,
+
+            'single_line_empty_body' => false,
 
             // arrays should be formatted like function/method arguments, without leading or trailing single line space.
             'trim_array_spaces' => true,
