@@ -26,7 +26,7 @@ class Feature
     private array $evaluationResults = [];
 
     /**
-     * @var array<string, Variant[]|null>
+     * @var array<int, Variant[]|null>
      */
     private array $variantResults = [];
 
@@ -117,19 +117,19 @@ class Feature
     /**
      * @return Variant[] | null
      */
-    public function findVariants(string $flag): ?array
+    public function findVariants(int $flagId): ?array
     {
-        if (!isset($this->variantResults[$flag])) {
+        if (!isset($this->variantResults[$flagId])) {
             try {
-                $response = $this->variant->findVariants($flag);
+                $response = $this->variant->findVariants($flagId);
                 if (!$response instanceof Error) {
-                    $this->variantResults[$flag] = $response;
+                    $this->variantResults[$flagId] = $response;
                 }
             } catch (ApiException $e) {
             }
         }
 
-        return $this->variantResults[$flag] ?? null;
+        return $this->variantResults[$flagId] ?? null;
     }
 
     /**

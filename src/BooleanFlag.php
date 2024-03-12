@@ -80,6 +80,9 @@ class BooleanFlag
         );
     }
 
+    /**
+     * @param array<mixed>|null $attachment
+     */
     public function createVariant(Flag $flag, string $key, ?array $attachment = null): Variant|Error
     {
         $variantRequest = $attachment ? ['key' => $key, 'attachment' => $attachment] : ['key' => $key];
