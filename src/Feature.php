@@ -3,9 +3,12 @@
 namespace Sidekicker\FlagrFeature;
 
 use Flagr\Client\Api\EvaluationApi;
+use Flagr\Client\Api\VariantApi;
 use Flagr\Client\ApiException;
+use Flagr\Client\Model\Error;
 use Flagr\Client\Model\EvaluationBatchRequest;
 use Flagr\Client\Model\EvaluationEntity;
+use Flagr\Client\Model\Variant;
 use Illuminate\Config\Repository;
 
 class Feature
@@ -22,8 +25,16 @@ class Feature
      */
     private array $evaluationResults = [];
 
-    public function __construct(private EvaluationApi $evaluator, private Repository $config)
-    {
+    /**
+     * @var array<string, Variant[]|null>
+     */
+    private array $variantResults = [];
+
+    public function __construct(
+        private EvaluationApi $evaluator,
+        private VariantApi $variant,
+        private Repository $config
+    ) {
         $this->id = $this->config->get('flagr-feature.id');
     }
 
@@ -105,6 +116,24 @@ class Feature
     }
 
     /**
+     * @return Variant[] | null
+     */
+    public function findVariants(string $flag): ?array
+    {
+        if (!isset($this->variantResults[$flag])) {
+            try {
+                $response = $this->variant->findVariants($flag);
+                if (!$response instanceof Error) {
+                    $this->variantResults[$flag] = $response;
+                }
+            } catch (ApiException $e) {
+            }
+        }
+
+        return $this->variantResults[$flag] ?? null;
+    }
+
+    /**
      * Clear internal cache
      */
     private function clear(): void
@@ -135,7 +164,7 @@ class Feature
 
             try {
                 $response = $this->evaluator->postEvaluationBatch($evaluationBatchRequest);
-                if ($response instanceof  \Flagr\Client\Model\EvaluationBatchResponse) {
+                if ($response instanceof \Flagr\Client\Model\EvaluationBatchResponse) {
                     $results = $response->getEvaluationResults() ?: [];
 
                     foreach ($results as $evaluationResult) {

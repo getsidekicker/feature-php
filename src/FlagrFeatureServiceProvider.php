@@ -72,6 +72,7 @@ class FlagrFeatureServiceProvider extends PackageServiceProvider
                     client: $this->createGuzzleClient(),
                     config: $this->createConfiguration()
                 ),
+                $this->app->make(VariantApi::class),
                 config()
             );
 

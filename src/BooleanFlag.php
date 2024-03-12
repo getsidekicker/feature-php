@@ -80,13 +80,13 @@ class BooleanFlag
         );
     }
 
-    private function createVariant(Flag $flag, string $key): Variant|Error
+    public function createVariant(Flag $flag, string $key, ?array $attachment = null): Variant|Error
     {
+        $variantRequest = $attachment ? ['key' => $key , 'attachment' => $attachment] : ['key' => $key];
+
         return $this->variantApi->createVariant(
             (int) $flag->getId(),
-            new CreateVariantRequest([
-                'key' => $key
-            ])
+            new CreateVariantRequest($variantRequest)
         );
     }
 
