@@ -12,11 +12,11 @@ class VariantTest extends TestCase
     public function testFindVariants(): void
     {
         $attachment = [
-            "1-3" => 15,
-            "4-10" => 18,
-            "11-20" => 22,
-            "21+" => 28,
-            "lastMinuteJobMinimum" => 7,
+            '1-3' => 15,
+            '4-10' => 18,
+            '11-20' => 22,
+            '21+' => 28,
+            'lastMinuteJobMinimum' => 7,
         ];
         $flag = $this->createFlag()['flag'];
         $booleanFlag = app(BooleanFlag::class);

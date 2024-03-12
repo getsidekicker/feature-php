@@ -39,7 +39,6 @@ class EvaluationTest extends TestCase
         $this->assertNull($feature->variant(uniqid('flag')));
     }
 
-
     public function testNoMatchEvaluation(): void
     {
         $feature = app(Feature::class);
