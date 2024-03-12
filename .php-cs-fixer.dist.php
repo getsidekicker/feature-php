@@ -12,14 +12,22 @@ $finder = PhpCsFixer\Finder::create()
 return (new PhpCsFixer\Config())
     ->setRules(
         [
-            //@see https://www.php-fig.org/psr/psr-12/
-            '@PSR12' => true,
+            // @see https://www.php-fig.org/per/coding-style/
+            '@PER' => true,
 
             // arrays should be declared using short syntax [].
             'array_syntax' => ['syntax' => 'short'],
 
             // calling unset on multiple items should be done in one call.
             'combine_consecutive_unsets' => true,
+
+            // methods must be separated with one blank line.
+            //'method_separation' => true
+            'class_attributes_separation' => [
+                'elements' => [
+                    'method' => 'one',
+                ]
+            ],
 
             // multi-line whitespace before closing semicolon are prohibited.
             'multiline_whitespace_before_semicolons' => false,
@@ -32,7 +40,7 @@ return (new PhpCsFixer\Config())
                 'on_multiline' => 'ignore',
             ],
 
-            'blank_line_after_namespace' => true,
+            'no_blank_lines_before_namespace' => false,
 
             // ensure there is no code on the same line as the PHP open tag and it is followed by a blank line.
             // we use defined('SYSPATH') or die('No direct script access.') everywhere, otherwise I would turn this on.
@@ -55,10 +63,19 @@ return (new PhpCsFixer\Config())
             // concatenation should be spaced according configuration.
             'concat_space' => ['spacing' => 'one'],
 
+            'function_declaration' => [
+                'closure_fn_spacing' => 'one',
+            ],
+
             // add missing space between function's argument and its typehint.
             'function_typehint_space' => true,
 
-            // include/require and file path should be divided with a single space. File path should not be placed under brackets.
+            // single line comments should use double slashes // and not hash #.
+            'single_line_comment_style' => [
+                'comment_types' => ['hash']
+            ],
+
+             // include/require and file path should be divided with a single space. File path should not be placed under brackets.
             'include' => true,
 
             // cast should be written in lower case.
@@ -89,7 +106,7 @@ return (new PhpCsFixer\Config())
             'no_multiline_whitespace_around_double_arrow' => true,
 
             // short cast bool using double exclamation mark should not be used.
-            'no_short_bool_cast' => false,
+            'no_short_bool_cast' => true,
 
             // single-line whitespace before closing semicolon are prohibited.
             'no_singleline_whitespace_before_semicolons' => true,
@@ -113,9 +130,6 @@ return (new PhpCsFixer\Config())
 
             // there should not be space before or after object T_OBJECT_OPERATOR ->.
             'object_operator_without_whitespace' => true,
-
-            // there should be exactly one blank line before a namespace declaration.
-            'single_blank_line_before_namespace' => true,
 
             // standardize spaces around ternary operator.
             'ternary_operator_spaces' => true,

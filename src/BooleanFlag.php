@@ -82,7 +82,7 @@ class BooleanFlag
 
     public function createVariant(Flag $flag, string $key, ?array $attachment = null): Variant|Error
     {
-        $variantRequest = $attachment ? ['key' => $key , 'attachment' => $attachment] : ['key' => $key];
+        $variantRequest = $attachment ? ['key' => $key, 'attachment' => $attachment] : ['key' => $key];
 
         return $this->variantApi->createVariant(
             (int) $flag->getId(),

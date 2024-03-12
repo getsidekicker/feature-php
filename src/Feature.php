@@ -57,7 +57,6 @@ class Feature
         return $this;
     }
 
-
     /**
      * @param array<mixed> $context
      */
